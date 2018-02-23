@@ -4,17 +4,20 @@
   <button class="navbar-toggler d-md-down-none" type="button" appSidebarToggler>&#9776;</button>
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">Dashboard</a>
+      <a class="nav-link" href="#">Inicio</a>
     </li>
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">Users</a>
+      <a class="nav-link" href="#">Usuarios</a>
     </li>
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">Settings</a>
+      <a class="nav-link" href="#">Clientes</a>
+    </li>
+    <li class="nav-item px-3">
+      <a class="nav-link" href="#">Proyectos</a>
     </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
-    <li class="nav-item d-md-down-none">
+<!--     <li class="nav-item d-md-down-none">
       <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
     </li>
     <li class="nav-item d-md-down-none">
@@ -22,7 +25,7 @@
     </li>
     <li class="nav-item d-md-down-none">
       <a class="nav-link" href="#"><i class="icon-location-pin"></i></a>
-    </li>
+    </li> -->
     <li class="nav-item dropdown" dropdown (onToggle)="toggled($event)">
       <a href class="nav-link dropdown-toggle" dropdownToggle (click)="false">
         <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
@@ -48,7 +51,7 @@
         <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a>
       </div>
     </li>
-    <button class="navbar-toggler d-md-down-none" type="button" appAsideMenuToggler>&#9776;</button>
+<!--     <button class="navbar-toggler d-md-down-none" type="button" appAsideMenuToggler>&#9776;</button> -->
   </ul>
 </header>
 
@@ -57,14 +60,14 @@
     <nav class="sidebar-nav">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i> Dashboard <span class="badge badge-info">NEW</span></a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-pie-chart"></i> Inicio</a>
         </li>
         <li class="divider"></li>
         <li class="nav-title">
-          UI Elements
+          Administrar
         </li>
-        <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
-          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-puzzle"></i> Components</a>
+<!--         <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-puzzle"></i> Usuarios</a>
           <ul class="nav-dropdown-items">
             <li class="nav-item">
               <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/buttons']"><i class="icon-puzzle"></i> Buttons</a>
@@ -91,8 +94,8 @@
               <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/tabs']"><i class="icon-puzzle"></i> Tabs</a>
             </li>
           </ul>
-        </li>
-        <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+        </li> -->
+<!--         <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
           <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-star"></i> Icons</a>
           <ul class="nav-dropdown-items">
             <li class="nav-item">
@@ -102,14 +105,23 @@
               <a class="nav-link" routerLinkActive="active" [routerLink]="['/icons/simple-line-icons']"><i class="icon-star"></i> Simple Line Icons</a>
             </li>
           </ul>
-        </li>
-        <li class="nav-item">
+        </li> -->
+<!--         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" [routerLink]="['/widgets']"><i class="icon-calculator"></i> Widgets <span class="badge badge-info">NEW</span></a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/charts']"><i class="icon-user"></i> Usuarioasddss</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/charts']"><i class="icon-pie-chart"></i> Charts</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/charts']"><i class="icon-users"></i> Clientes</a>
         </li>
-        <li class="divider"></li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/charts']"><i class="icon-tasks"></i> Proyectos</a>
+        </li>
+<!--         <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/charts']"><i class="icon-pie-chart"></i> Charts</a>
+        </li> -->
+<!--         <li class="divider"></li>
         <li class="nav-title">
           Extras
         </li>
@@ -129,7 +141,7 @@
               <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/500']"><i class="icon-star"></i> Error 500</a>
             </li>
           </ul>
-        </li>
+        </li> -->
       </ul>
     </nav>
   </div>
@@ -141,13 +153,13 @@
     <ol class="breadcrumb">
       <app-breadcrumbs></app-breadcrumbs>
       <!-- Breadcrumb Menu-->
-      <li class="breadcrumb-menu d-md-down-none">
+<!--       <li class="breadcrumb-menu d-md-down-none">
         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
           <a class="btn" href="#"><i class="icon-speech"></i></a>
           <a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>
           <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
         </div>
-      </li>
+      </li> -->
     </ol>
 
     <div class="container-fluid">
@@ -323,7 +335,7 @@
           </div>
         </div>
       </tab>
-      <tab>
+<!--       <tab>
         <ng-template tabHeading><i class="icon-settings"></i></ng-template>
         <div class="p-3">
           <h6>Settings</h6>
@@ -405,7 +417,7 @@
           </div>
           <small class="text-muted">25GB/256GB</small>
         </div>
-      </tab>
+      </tab> -->
     </tabset>
   </aside>
 </div>
