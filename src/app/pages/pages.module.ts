@@ -8,9 +8,11 @@ import { RegisterComponent } from './register.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { FormsModule } from '@angular/forms';
 
+
 @NgModule({
   imports: [ PagesRoutingModule,
-    FormsModule
+    FormsModule,
+
    ],
   declarations: [
     P404Component,
