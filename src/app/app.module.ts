@@ -18,6 +18,10 @@ import { AppRoutingModule } from './app.routing';
 // Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
 import { SimpleLayoutComponent } from './layouts/simple-layout.component';
+import { LoginRedirect } from './services/login-redirect.service';
+import { UsersService } from './services/users.service';
+import { LoginService } from './services/login.service';
+
 
 @NgModule({
   imports: [
@@ -25,7 +29,8 @@ import { SimpleLayoutComponent } from './layouts/simple-layout.component';
     AppRoutingModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    
   ],
   declarations: [
     AppComponent,
@@ -38,8 +43,14 @@ import { SimpleLayoutComponent } from './layouts/simple-layout.component';
   ],
   providers: [{
     provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
+    useClass: HashLocationStrategy,
+
+  },
+
+  LoginService,
+  LoginRedirect,
+  UsersService
+],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
