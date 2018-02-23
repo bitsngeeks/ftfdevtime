@@ -25,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -43,7 +44,7 @@ import {HttpModule} from '@angular/http';
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
-    AsideToggleDirective,
+    AsideToggleDirective
   ],
   providers: [{
     provide: LocationStrategy,

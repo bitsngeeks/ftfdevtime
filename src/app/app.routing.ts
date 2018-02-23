@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
 import { SimpleLayoutComponent } from './layouts/simple-layout.component';
+import { UsersviewComponent } from './usersview/usersview.component';
 
 export const routes: Routes = [
   {
@@ -50,6 +51,10 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: './dashboard/dashboard.module#DashboardModule'
+      },
+      {
+        path: 'usersview',
+        loadChildren: './usersview/usersview.module#UsersviewModule'
       },
       {
         path: 'components',

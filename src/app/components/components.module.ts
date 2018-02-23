@@ -22,6 +22,7 @@ import { TabsComponent } from './tabs.component';
 // Components Routing
 import { ComponentsRoutingModule } from './components-routing.module';
 
+
 @NgModule({
   imports: [
     ComponentsRoutingModule,
