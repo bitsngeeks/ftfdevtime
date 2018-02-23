@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
+import { FullLayoutDevComponent } from './layouts/full-layout-dev.component';
 import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { UsersviewComponent } from './usersview/usersview.component';
 
@@ -13,7 +14,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'dev',
+    path: 'admin',
     component: FullLayoutComponent,
     data: {
       title: 'Home'
@@ -42,13 +43,14 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'admin',
-    component: FullLayoutComponent,
+    path: 'dev',
+    component: FullLayoutDevComponent,
     data: {
       title: 'Home'
     },
     children: [
       {
+<<<<<<< HEAD
         path: 'dashboard',
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       },
@@ -71,6 +73,10 @@ export const routes: Routes = [
       {
         path: 'charts',
         loadChildren: './chartjs/chartjs.module#ChartJSModule'
+=======
+        path: 'development',
+        loadChildren: './devtime/devtime.module#DevtimeModule'
+>>>>>>> a6366ee27b872dbdab08b3b9cdf9870d006d4736
       }
     ]
   },
