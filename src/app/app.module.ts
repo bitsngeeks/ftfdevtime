@@ -21,6 +21,8 @@ import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { UsersService } from './services/users.service';
 import { LoginService } from './services/login.service';
+import { HttpClientModule } from '@angular/common/http';
+import {HttpModule} from '@angular/http';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { LoginService } from './services/login.service';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
+    HttpModule,
+    HttpClientModule
     
   ],
   declarations: [

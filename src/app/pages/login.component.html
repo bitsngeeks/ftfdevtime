@@ -13,15 +13,12 @@
               </div>
               <div class="input-group mb-4">
                 <span class="input-group-addon"><i class="icon-lock"></i></span>
-                <input type="password" class="form-control" placeholder="Password" [(ngModel)]="username">
+                <input type="password" class="form-control" placeholder="Password" [(ngModel)]="pass">
               </div>
               <div class="row">
                 <div class="col-6">
-                  <button type="button" class="btn btn-primary px-4">Login</button>
-                </div>
-                <div class="col-6 text-right">
-                  <button type="button" class="btn btn-link px-0">Forgot password?</button>
-                </div>
+                  <button type="button" class="btn btn-primary px-4" (click)="validateLogin()">Login</button>
+                </div>                
               </div>
             </div>
           </div>
