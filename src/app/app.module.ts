@@ -1,3 +1,4 @@
+import { FullLayoutDevComponent } from './layouts/full-layout-dev.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -39,6 +40,7 @@ import {HttpModule} from '@angular/http';
   declarations: [
     AppComponent,
     FullLayoutComponent,
+    FullLayoutDevComponent,
     SimpleLayoutComponent,
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
