@@ -25,9 +25,9 @@
                          [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)"/>
           
                   <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+<!--                       <button type="button" class="btn btn-default" (click)="dp.clearDate()">
                           <i class="fa fa-close"></i>
-                      </button>
+                      </button> -->
                       <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
                           <i class="fa fa-calendar"></i>
                       </button>
@@ -52,9 +52,9 @@
         </div><!--/.row-->
         
       </div>
-      <div class="card-footer">
-        <button type="submit" class="btn btn-sm btn-primary" (click)="logHours()"><i class="fa fa-dot-circle-o"></i> Registrar</button>
-        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Limpiar</button>
+      <div class="card-footer" style="justify-content: flex-end;">
+        <button type="submit" class="btn btn-sm btn-primary"  (click)="logHours()"><i class="fa fa-dot-circle-o"></i> Registrar</button>
+        <!-- <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Limpiar</button> -->
       </div>
     </div>
     

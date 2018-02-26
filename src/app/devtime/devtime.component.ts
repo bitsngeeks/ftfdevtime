@@ -14,7 +14,6 @@ export class DevtimeComponent implements OnInit {
 
   myOptions: INgxMyDpOptions = {
     disableSince: {year: this.date.getFullYear(), month: this.date.getMonth() + 1, day: this.date.getDate()+1},
-    disableWeekends: true,
     dateFormat: 'dd.mm.yyyy',
 };
   public resultProject=[];
