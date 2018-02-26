@@ -12,6 +12,15 @@ export class UsersviewComponent implements OnInit {
   resultUsers:Object[];
   public myModal;
     public infoModal;
+    
+    Roles=[{
+      id:"true",
+      text:"Admin"
+    },
+    {
+      id:"false",
+      text:"Developer"
+    }]
 
   constructor(public usersService: UsersService) { 
     this.resultUsers=[];

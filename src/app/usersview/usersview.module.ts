@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { UsersviewComponent } from './usersview.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UsersviewRoutingModule } from './usersview-routing.module';
+import { NgxSelectModule } from 'ngx-select-ex';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -14,6 +16,8 @@ import { UsersviewRoutingModule } from './usersview-routing.module';
     BsDropdownModule,
     CommonModule,
     ModalModule.forRoot(),
+    NgxSelectModule,
+    FormsModule
   ],
   declarations: [ UsersviewComponent ]
 })
