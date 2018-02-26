@@ -6,14 +6,16 @@
       </div>
       <div class="card-body">
         <div class="form-group row">
-            <div class="col-md-12">
-              <label for="project">Proyecto</label>
-              <select id="select" name="select" class="form-control form-control-sm">
-                <option value="0" disabled>Seleccione un proyecto</option>
-                <option *ngFor="let project of resultProject" [value]="project._id" >{{project.name+" - "+project.description}}</option>
-              </select>
-            </div>
+          <div class="col-md-12">
+            <label for="project">Proyecto</label>
+            <ngx-select 
+            [allowClear]="true"
+            [items]="Projects"
+            [(ngModel)]="ProjectId"
+            placeholder="Ningún projecto seleccionado">
+          </ngx-select>
           </div>
+        </div>
         <div class="row">
           <div class="form-group col-sm-4">
             <label for="">Fecha</label>
@@ -34,16 +36,16 @@
           </form>
           </div>
           <div class="col-sm-4">
-            <div class="form-group">
+            <div class="form-group has-success">
               <label for="hours">Horas</label>
-              <input type="text" class="form-control" id="hours" placeholder="Horas">
+              <input type="number" class="form-control " id="hours" placeholder="Horas" [(ngModel)]="hours">
 <!--               <span class="help-block">Puedes ingresar el tiempo tanto en horas como en</span> -->
             </div>
           </div>
           <div class="col-sm-4">
             <div class="form-group">
               <label for="minutes">Minutos</label>
-              <input type="text" class="form-control" id="minutes" placeholder="Minutos">
+              <input type="number" class="form-control" id="minutes" placeholder="Minutos" [(ngModel)]="minutes">
 <!--               <span class="help-block">Please enter your email</span> -->
             </div>
           </div>
@@ -51,7 +53,7 @@
         
       </div>
       <div class="card-footer">
-        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Registrar</button>
+        <button type="submit" class="btn btn-sm btn-primary" (click)="logHours()"><i class="fa fa-dot-circle-o"></i> Registrar</button>
         <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Limpiar</button>
       </div>
     </div>
