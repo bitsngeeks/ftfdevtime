@@ -4,12 +4,17 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { DevtimeComponent } from './devtime.component';
 import { DevtimeRoutingModule } from './devtime-routing.module';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [
     DevtimeRoutingModule,
     ChartsModule,
-    BsDropdownModule
+    BsDropdownModule,
+    NgxMyDatePickerModule.forRoot(),
+    FormsModule
   ],
   declarations: [ DevtimeComponent ]
 })

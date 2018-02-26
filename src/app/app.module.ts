@@ -1,3 +1,4 @@
+import { ProjectsService } from './services/projects.service';
 import { FullLayoutDevComponent } from './layouts/full-layout-dev.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -56,7 +57,8 @@ import {HttpModule} from '@angular/http';
 
   LoginService,
   LoginRedirect,
-  UsersService
+  UsersService,
+  ProjectsService
 ],
   bootstrap: [ AppComponent ]
 })
