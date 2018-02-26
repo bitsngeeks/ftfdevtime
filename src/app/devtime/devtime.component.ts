@@ -1,5 +1,8 @@
+import { CommonModule } from '@angular/common/src/common_module';
+import { ProjectsService } from './../services/projects.service';
 import { Component, OnInit } from '@angular/core';
 import {INgxMyDpOptions, IMyDateModel} from 'ngx-mydatepicker';
+
 
 @Component({
   selector: 'app-devtime',
@@ -14,12 +17,18 @@ export class DevtimeComponent implements OnInit {
     disableWeekends: true,
     dateFormat: 'dd.mm.yyyy',
 };
-
+  resultProject=[];
 /* model: any = { date: { year: 2018, month: 10, day: 9 } }; */
 
-  constructor() { }
+  constructor(public projectsService: ProjectsService) { }
 
   ngOnInit() {
+    this.projectsService.getProjects()
+    .then((result) => {
+
+      console.log(result.json())
+      this.resultProject=result.json();
+    })
   }
 
   onDateChanged(event: IMyDateModel): void {

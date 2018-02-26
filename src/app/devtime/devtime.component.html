@@ -5,28 +5,18 @@
         <strong>Registrar horas</strong>
       </div>
       <div class="card-body">
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <label for="ccmonth">Proyecto</label>
-            <select class="form-control" id="ccmonth">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
-            </select>
+        <div class="form-group row">
+            <div class="col-md-12">
+              <label for="project">Proyecto</label>
+              <select id="select" name="select" class="form-control form-control-sm">
+                <option value="0" disabled>Seleccione un proyecto</option>
+                <option *ngFor="let project of resultProject" [value]="project._id" >{{project.name+" - "+project.description}}</option>
+              </select>
+            </div>
           </div>
-        </div><!--/.row-->
         <div class="row">
           <div class="form-group col-sm-4">
-            <label for="cvv">Fecha</label>
+            <label for="">Fecha</label>
             <form>
               <div class="input-group">
                   <input class="form-control" style="float:none" placeholder="Seleccione una fecha" ngx-mydatepicker name="mydate"

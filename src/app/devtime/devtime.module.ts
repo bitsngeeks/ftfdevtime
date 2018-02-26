@@ -6,6 +6,7 @@ import { DevtimeComponent } from './devtime.component';
 import { DevtimeRoutingModule } from './devtime-routing.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     ChartsModule,
     BsDropdownModule,
     NgxMyDatePickerModule.forRoot(),
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   declarations: [ DevtimeComponent ]
 })
