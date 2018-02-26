@@ -54,7 +54,7 @@
 </div>
 </div>
 
-<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div bsModal #infoModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-info" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -64,24 +64,24 @@
           </button>
         </div>
         <div class="modal-body">
-          Username: <input class="form-control" id="username-input" name="username-input" placeholder="Ingresar Username" type="text">
+          Username: <input class="form-control" id="username-input" name="username-input" placeholder="Ingresar Username" type="text" [(ngModel)]="username">
 
-          Password: <input class="form-control" id="password-input" name="password-input" placeholder="Ingresar Password" type="password">
+          Password: <input class="form-control" id="password-input" name="password-input" placeholder="Ingresar Password" type="password" [(ngModel)]="password">
 
           Role: <ngx-select
           [allowClear]="true"
           [items]="Roles"
-          [(ngModel)]="id"
+          [(ngModel)]="role"
           placeholder="Ningún rol seleccionado">
         </ngx-select>
 
-          Nombre: <input class="form-control" id="name-input" name="name-input" placeholder="Ingresar Nombre" type="text">
+          Nombre: <input class="form-control" id="name-input" name="name-input" placeholder="Ingresar Nombre" type="text" [(ngModel)]="name">
 
-          Email: <input class="form-control" id="email-input" name="email-input" placeholder="Ingresar Email" type="email">
+          Email: <input class="form-control" id="email-input" name="email-input" placeholder="Ingresar Email" type="email" [(ngModel)]="email">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" (click)="infoModal.hide()" #closeBtn>Close</button>
+          <button type="button" class="btn btn-primary" (click)="addUser($event)" >Save changes</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

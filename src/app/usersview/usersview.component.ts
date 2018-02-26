@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { UsersService } from './../services/users.service';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.component';
+
 
 @Component({
   selector: 'app-usersview',
@@ -10,15 +11,24 @@ import { ModalDirective } from 'ngx-bootstrap/modal/modal.component';
 })
 export class UsersviewComponent implements OnInit {
   resultUsers:Object[];
+  username:string;
+  password:string;
+  role:boolean;
+  name:string;
+  email:string;
+  newrole:boolean;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+  
+
   public myModal;
     public infoModal;
     
     Roles=[{
-      id:"true",
+      id:true,
       text:"Admin"
     },
     {
-      id:"false",
+      id:false,
       text:"Developer"
     }]
 
@@ -38,7 +48,28 @@ export class UsersviewComponent implements OnInit {
   }
 
   removeUser(id){
-    this.usersService.removeUser(id);
+    this.usersService.removeUser(id)
+    .then(()=>this.getUsers());
+    alert("Usuario Eliminado");
+  }
+
+  addUser(event){
+
+
+    if(this.username!=null && this.password!=null && this.role!=null && this.name!=null && this.email!=null)
+    {
+
+    this.usersService.addUser(this.username,this.password,this.role,this.name,this.email)
+    .then(()=>this.getUsers());
+    alert("Usuario Agregado");
+    this.closeBtn.nativeElement.click();
+
+    }else{
+      alert("Complete todos los campos");
+      
+    }
+    
+    
   }
 
   ngOnInit() {

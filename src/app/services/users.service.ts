@@ -41,7 +41,7 @@ export class UsersService {
       "password" : password,
       "role" : role,
       "name" : name,
-      "email":email
+      "email": email
       }
     ).toPromise();
         
