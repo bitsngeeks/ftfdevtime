@@ -4,7 +4,7 @@
       <i class="fa fa-align-justify"></i> Usuarios
     </div>
     <div class="card-body">
-      <table class="table">
+      <table class="table" *ngFor="let user of this.userService.resultUsers">
         <thead>
           <tr>
             <th>Nombre</th>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { UsersService } from './../services/users.service';
+
 @Component({
   selector: 'app-usersview',
   templateUrl: './usersview.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersviewComponent implements OnInit {
 
-  constructor() { }
+  constructor(public usersService: UsersService) { }
 
   ngOnInit() {
   }

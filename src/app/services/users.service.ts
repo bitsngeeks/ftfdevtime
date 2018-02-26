@@ -21,6 +21,10 @@ export class UsersService {
     this.headers = new Headers({'Content-Type': 'application/json', Authorization: `Bearer ${this.token}`});
     return this.http.get(this.url+'/me',{headers: this.headers}).toPromise();        
   }
+  getUsers(): Promise<any>{
+    
+    return this.http.get(this.url).toPromise();        
+  }
 
 
   
