@@ -1,26 +1,37 @@
+<div class="animated fadeIn">
 <div class="col-lg-6">
   <div class="card">
     <div class="card-header">
       <i class="fa fa-align-justify"></i> Usuarios
     </div>
     <div class="card-body">
-      <table class="table" *ngFor="let user of this.userService.resultUsers">
+      <tr >
+       <table class="table" >
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Usuario</th>
             <th>E-mail</th>
+            <th>Tipo de Usuario</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>X</td>
-            <td>Xasd</td>
-            <td>xasxas@</td>
+          <tr *ngFor="let user of this.resultUsers">
+            <td>{{user.name}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.role && "Admin" || "Developer"}}</td>
+            <td></td>
+            <td>
+            <button class="btn btn-danger" type="button" (click)=removeUser(user._id)>Eliminar</button>
+          </td>
           </tr>
         </tbody>
       </table>
-      <ul class="pagination">
+      
+      </tr>
+      <!-- <ul class="pagination">
         <li class="page-item"><a class="page-link" href="#">Prev</a></li>
         <li class="page-item active">
           <a class="page-link" href="#">1</a>
@@ -29,7 +40,42 @@
         <li class="page-item"><a class="page-link" href="#">3</a></li>
         <li class="page-item"><a class="page-link" href="#">4</a></li>
         <li class="page-item"><a class="page-link" href="#">Next</a></li>
-      </ul>
-    </div>
+      </ul> -->
+
+      <tr>
+          <button type="button" class="btn btn-info" data-toggle="modal" (click)="infoModal.show()">
+              Agregar Usuario
+            </button>
+        </tr>
+    </div>    
+    
   </div>
+  
 </div>
+</div>
+
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-info" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Nuevo Usuario</h4>
+          <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Username: <input class="form-control" id="username-input" name="username-input" placeholder="Ingresar Username" type="text">
+
+          Password: <input class="form-control" id="password-input" name="password-input" placeholder="Ingresar Password" type="password">.
+
+          Nombre: <input class="form-control" id="name-input" name="name-input" placeholder="Ingresar Nombre" type="text">
+
+          Email: <input class="form-control" id="email-input" name="email-input" placeholder="Ingresar Email" type="email">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

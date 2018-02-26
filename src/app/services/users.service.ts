@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
+import { CommonModule } from "@angular/common";
 
 @Injectable()
 export class UsersService {
@@ -26,6 +27,25 @@ export class UsersService {
     return this.http.get(this.url).toPromise();        
   }
 
+  removeUser(id:String): Promise<any>{
+    return this.http.delete(this.url+'/'+id)
+      
+      .toPromise();
+        
+  }
+
+  addUser(username:string, password: string, role:boolean, name:string, email:string): Promise<any>{
+    return this.http.post(this.url,
+      {
+      "username" : username,
+      "password" : password,
+      "role" : role,
+      "name" : name,
+      "email":email
+      }
+    ).toPromise();
+        
+  }
 
   
 
