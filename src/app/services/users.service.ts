@@ -27,6 +27,11 @@ export class UsersService {
     return this.http.get(this.url).toPromise();        
   }
 
+  getUserById(id){
+    return this.http.get(this.url+'/'+id).toPromise();      
+
+  }
+
   removeUser(id:String): Promise<any>{
     return this.http.delete(this.url+'/'+id)
       
