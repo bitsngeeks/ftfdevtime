@@ -50,33 +50,8 @@ export const routes: Routes = [
     },
     children: [
       {
-<<<<<<< HEAD
-        path: 'dashboard',
-        loadChildren: './dashboard/dashboard.module#DashboardModule'
-      },
-      {
-        path: 'usersview',
-        loadChildren: './usersview/usersview.module#UsersviewModule'
-      },
-      {
-        path: 'components',
-        loadChildren: './components/components.module#ComponentsModule'
-      },
-      {
-        path: 'icons',
-        loadChildren: './icons/icons.module#IconsModule'
-      },
-      {
-        path: 'widgets',
-        loadChildren: './widgets/widgets.module#WidgetsModule'
-      },
-      {
-        path: 'charts',
-        loadChildren: './chartjs/chartjs.module#ChartJSModule'
-=======
         path: 'development',
         loadChildren: './devtime/devtime.module#DevtimeModule'
->>>>>>> a6366ee27b872dbdab08b3b9cdf9870d006d4736
       }
     ]
   },
