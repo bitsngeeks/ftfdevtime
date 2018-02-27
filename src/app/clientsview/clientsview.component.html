@@ -2,40 +2,42 @@
     <!-- -->
     <div class="row">
       <div class="col-lg-5">
-      <!-- Infousers card -->
+      <!-- Infoclients card -->
         <div class="card">
               <div class="card-header">           
         <i class="fa fa-align-justify"></i> Clientes
-      </div>
-      <div class="card-body">
-        <tr >
-         <table class="table" >
-          <thead>
-            <tr>
-              <th>Nombre</th>              
-              <th>E-mail</th>
-              
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let client of this.resultUsers">
-              <td>{{client.name}}</td>
-              <td>{{client.email}}</td>
-            
-              <td>
-              <button class="btn btn-warning" type="button" (click)=updateUser(user._id)>Editar</button></td>
-              <td>
-              <button class="btn btn-danger" type="button" (click)=removeUser(user._id)>Eliminar</button>            
-            </td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+              <div class="card-body">
+                <tr>
+                <table class="table" >
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>              
+                      <th>E-mail</th>
+                      <th>Proyectos</th>
+                      <th>Opciones</th>              
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let client of this.resultClients">
+                      <td>{{client.name}}</td>
+                      <td>{{client.email}}</td>
+                      <td>
+                      <button class="btn btn-primary" type="button" (click)=getProjectsByClientId(client._id) #openBtn><i class="fa fa-star"></i>&nbsp; Ver Proyectos</button>
+                      </td>
+                      <td>
+                      <span class="text-primary h4"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateClient(client._id)></i></span>
+                      <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeClient(client._id)></i> </span>        
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
         
         </tr>
   
         <tr>
-            <button type="button" class="btn btn-info" (click)="infoModal.show()">
-                Agregar Usuario
+            <button type="button" class="btn btn-info" (click)="infoModal.show()" (click)="cleanModal()" >
+                Agregar Cliente
               </button>
           </tr>
       </div>    
@@ -45,7 +47,7 @@
     <div class="col-lg-6">
     <div class="card" style="display:none;" id="updatecard">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> Editar Usuario
+          <i class="fa fa-align-justify"></i> Editar Cliente
         </div>
         <div class="card-body">
           <tr >
@@ -53,12 +55,7 @@
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Usuario</th>
                 <th>E-mail</th>
-                <th>Tipo de Usuario</th>
-                <th></th>
-                
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -67,23 +64,9 @@
                    <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
                  </td>
                  <td>
-                    <input class="form-control" id="username-update" name="username-update" placeholder="" type="text" [(ngModel)]="usernameupdate">
+                    <input class="form-control col-lg-16" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
                   </td>
-                  <td>
-                      <input class="form-control" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
-                    </td>
-                      <td>
-                      <ngx-select
-            
-            
-            [items]="Roles"
-            [(ngModel)]="roleupdate"
-            placeholder="Seleccionar rol">
-            
-          </ngx-select>
-        </td>
-                <td>              
-              </td>
+                 
               </tr>
             </tbody>
           </table>
@@ -98,48 +81,105 @@
         </div>
         </div>    
         
-      </div>
-    </div>
-    
-  
-  
-  </div>
+      </div> 
+        
+   </div>  <!-- Fin de row de Clientes -->  
+   
+  <!-- Row de proyectos de clientes --> 
+   <div class="row">
+
+      <div class="col-lg-5">
+          <!-- Infoclients card -->
+            <div class="card" style="display:none;" id="proyectscard">
+                  <div class="card-header">           
+            <i class="fa fa-align-justify"></i> Proyectos
+                  </div>
+                  <div class="card-body">
+                    <tr>
+                    <table class="table" >
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>              
+                          <th>Descripcion</th>          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let project of this.resultProjects">
+                          <td>{{project.name}}</td>
+                          <td>{{project.description}}</td>
+                          <td>
+                          <span class="text-primary h4"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateProject(project._id)></i></span>
+                          <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeProject(project._id)></i> </span>        
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+            
+            </tr>
+      
+            <tr>
+                <button type="button" class="btn btn-info" (click)="addProject()" (click)="cleanModal()">
+                    Agregar Proyecto
+                  </button>
+              </tr>
+          </div>    
+          </div>
+        </div>
+        <!-- Update card -->
+        <div class="col-lg-6">
+        <div class="card" style="display:none;" id="updatecard2">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Editar Proyecto
+            </div>
+            <div class="card-body">
+              <tr >
+               <table class="table" >
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                     <td>
+                       <input class="form-control" id="pname-update" name="pname-update" placeholder="" type="text" [(ngModel)]="pnameupdate">
+                     </td>
+                     <td>
+                        <input class="form-control" id="pdescription-update" name="pdescription-update" placeholder="" type="text" [(ngModel)]="pdescriptionupdate">
+                      </td>
+                     
+                  </tr>
+                </tbody>
+              </table>
+              
+              </tr>
+        
+              <tr>
+                  <button type="button" class="btn btn-info" (click)="psaveChanges()">
+                      Guardar cambios
+                    </button>
+                </tr>
+            </div>
+            </div>    
+            
+          </div> 
+
+   </div>
+
+</div> <!-- Fin de animated -->
+
   <!-- Infomodal -->
   <div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-info" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Nuevo Usuario</h4>
+            <h4 class="modal-title">Nuevo Cliente</h4>
             <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input class="form-control" id="username-input" name="username-input" placeholder="Ingresar Username" type="text" [(ngModel)]="username">
-            
-          </div>
-          <br>
-          <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
-            <input class="form-control" id="password-input" name="password-input" placeholder="Ingresar Password" type="password" [(ngModel)]="password">
-            
-  
-            </div>
-            <br>
-            <div >
-           <ngx-select
-            
-            [allowClear]="true"
-            [items]="Roles"
-            [(ngModel)]="role"
-            placeholder="Seleccionar rol">
-            
-          </ngx-select>
-          
-          </div>
-          <br>
           <div class="input-group">
           <span class="input-group-addon"><i class="fa fa-user"></i></span>
             <input class="form-control" id="name-input" name="name-input" placeholder="Ingresar Nombre" type="text" [(ngModel)]="name">
@@ -152,8 +192,10 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="infoModal.hide()" #closeBtn>Close</button>
-            <button type="button" class="btn btn-sm btn-primary" (click)="addUser($event)" >Save changes</button>
+            <button type="button" class="btn btn-sm btn-primary" (click)="addClient($event)" >Guardar cambios</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    

@@ -52,6 +52,16 @@ export class UsersviewComponent implements OnInit {
     this.resultUserById=[];
   }
 
+  cleanModal(){
+
+    this.username="";
+    this.password="";
+    this.role=null;
+    this.name="";
+    this.email="";
+
+   }
+
   getUsers(){
 
      
@@ -118,6 +128,7 @@ export class UsersviewComponent implements OnInit {
     .then(()=>this.getUsers());
     // console.log(this.idupdate,this.nameupdate,this.usernameupdate,this.emailupdate,this.roleupdate)
     document.getElementById('updatecard').style.display = "none";
+    alert("Usuario actualizado");
 
     }
 

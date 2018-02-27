@@ -14,4 +14,46 @@ export class ClientsviewService {
     this.resultClients=[];
   }
 
+  getClients(): Promise<any>{
+    
+    return this.http.get(this.url).toPromise();        
+  }
+
+  addClient(name:string, email:string): Promise<any>{
+    return this.http.post(this.url,
+      {
+      "name" : name,
+      "email": email
+      }
+    ).toPromise();
+        
+  }
+  removeClient(id:String): Promise<any>{
+    return this.http.delete(this.url+'/'+id)
+      
+      .toPromise();
+        
+  }
+
+  getClientById(id){
+    return this.http.get(this.url+'/'+id).toPromise();      
+
+  }
+
+  getProjectsByClientId(id){
+    return this.http.get(this.url+'/'+id).toPromise();      
+
+  }
+
+  saveChanges(id:string, name:string, email:string){
+    return this.http.put(this.url+'/'+id,
+      {
+        
+        "name" : name,
+        "email": email
+
+      })
+      
+      .toPromise();
+  }
 }
