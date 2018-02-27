@@ -21,8 +21,8 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'dashboard',
-        loadChildren: './dashboard/dashboard.module#DashboardModule'
+        path: 'charts',
+        loadChildren: './chartjs/chartjs.module#ChartJSModule'
       },
       {
         path: 'usersview',

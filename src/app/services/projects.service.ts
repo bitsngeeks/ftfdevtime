@@ -14,6 +14,24 @@ export class ProjectsService {
    getProjects(): Promise<any>{
     return this.http.get(this.url).toPromise();        
   }
+   getOneProject(id): Promise<any>{
+    return this.http.get(this.url+'/'+id).toPromise();        
+  }
+   createProject(name,description): Promise<any>{
+    return this.http.post(this.url,{
+      "name": name,
+      "description": description
+    }).toPromise();       
+  }
+   editProject(id,name,description): Promise<any>{
+    return this.http.put(this.url+'/'+id,{
+      "name": name,
+      "description": description
+    }).toPromise();       
+  }
+   deleteProject(id): Promise<any>{
+    return this.http.delete(this.url+'/'+id).toPromise();       
+  }
 
   logHours(id,date,time): Promise<any>{
     return this.http.post(this.url+"/log/"+id,{

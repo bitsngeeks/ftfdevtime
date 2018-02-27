@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       .then((result) => {
         console.log(result.json())
         if(result.json().role){
-          this.router.navigateByUrl('/admin/dashboard'); 
+          this.router.navigateByUrl('/admin/charts'); 
         } else{
           this.router.navigateByUrl('/dev/development'); 
         }
