@@ -43,6 +43,10 @@ export const routes: Routes = [
       {
         path: 'usersview',
         loadChildren: './usersview/usersview.module#UsersviewModule'
+      },
+      {
+        path: 'clientsview',
+        loadChildren: './clientsview/clientsview.module#ClientsviewModule'
       }
     ]
   },

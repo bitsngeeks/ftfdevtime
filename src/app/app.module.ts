@@ -25,6 +25,7 @@ import { UsersService } from './services/users.service';
 import { LoginService } from './services/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import {HttpModule} from '@angular/http';
+import { ClientsviewComponent } from './clientsview/clientsview.component';
 
 
 
