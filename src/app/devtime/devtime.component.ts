@@ -10,7 +10,7 @@ import {INgxMyDpOptions, IMyDateModel} from 'ngx-mydatepicker';
   styleUrls: ['./devtime.component.scss']
 })
 export class DevtimeComponent implements OnInit {
-  date = new Date();
+  public date = new Date();
 
   myOptions: INgxMyDpOptions = {
     disableSince: {year: this.date.getFullYear(), month: this.date.getMonth() + 1, day: this.date.getDate()+1},
@@ -22,7 +22,7 @@ export class DevtimeComponent implements OnInit {
   public hours=0;
   public minutes=0;
   public model: any = { jsdate: new Date() };
-
+  
   constructor(public projectsService: ProjectsService) { }
 
 
@@ -45,8 +45,21 @@ export class DevtimeComponent implements OnInit {
     })
   }
 
+  projectSelect(event){
+    this.projectsService.getHours(this.ProjectId,this.date)
+    .then((result) => {
+      this.minutes = result._body % 60;
+      this.hours = Math.floor(result._body / 60);
+    })
+  }
+
   onDateChanged(event: IMyDateModel): void {
-    // date selected
+    this.date = new Date(event.jsdate)
+    this.projectsService.getHours(this.ProjectId,this.date)
+    .then((result) => {
+      this.minutes = result._body % 60;
+      this.hours = Math.floor(result._body / 60);
+    })
 }
 
 logHours(){

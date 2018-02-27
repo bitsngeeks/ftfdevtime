@@ -22,6 +22,12 @@ export class ProjectsService {
     }).toPromise();        
   }
 
+  getHours(id,date): Promise<any>{
+    return this.http.post(this.url+"/logs/"+id,{
+      "date": date
+    }).toPromise();        
+  }
+
 
   
 

@@ -12,6 +12,7 @@
             [allowClear]="true"
             [items]="Projects"
             [(ngModel)]="ProjectId"
+            (select)="projectSelect($event)"
             placeholder="Ningún projecto seleccionado">
           </ngx-select>
           </div>
