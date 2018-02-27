@@ -3,15 +3,15 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommonModule } from '@angular/common';
 
-import { UsersviewComponent } from './usersview.component';
+import { ClientsviewComponent } from './clientsview.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { UsersviewRoutingModule } from './usersview-routing.module';
+import { ClientsviewRoutingModule } from './clientsview-routing.module';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
-    UsersviewRoutingModule,
+    ClientsviewRoutingModule,
     ChartsModule,
     BsDropdownModule,
     CommonModule,
@@ -19,6 +19,6 @@ import { FormsModule } from '@angular/forms';
     NgxSelectModule,
     FormsModule
   ],
-  declarations: [ UsersviewComponent ]
+  declarations: [ ClientsviewComponent ]
 })
-export class UsersviewModule { }
+export class ClientsviewModule { }

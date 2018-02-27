@@ -1,35 +1,165 @@
-<div class="col-lg-6">
-  <div class="card">
-    <div class="card-header">
+<div class="animated fadeIn">
+  <!-- -->
+  <div class="row">
+    <div class="col-lg-5">
+    <!-- Infousers card -->
+      <div class="card">
+            <div class="card-header">           
       <i class="fa fa-align-justify"></i> Usuarios
     </div>
     <div class="card-body">
-      <table class="table">
+      <tr >
+       <table class="table" >
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Usuario</th>
             <th>E-mail</th>
+            <th>Tipo</th>
+            <th>Opciones</th>
+            
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>X</td>
-            <td>Xasd</td>
-            <td>xasxas@</td>
+          <tr *ngFor="let user of this.resultUsers">
+            <td>{{user.name}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.role && "Admin" || "Developer"}}</td>
+          
+            <td>
+              <span class="text-primary h4"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateUser(user._id)></i></span>
+              <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeUser(user._id)></i> </span>    
+          </td>
           </tr>
         </tbody>
       </table>
-      <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-        <li class="page-item active">
-          <a class="page-link" href="#">1</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-      </ul>
+      
+      </tr>
+
+      <tr>
+          <button type="button" class="btn btn-info" (click)="infoModal.show()" (click)="cleanModal()">
+              Agregar Usuario
+            </button>
+        </tr>
+    </div>    
     </div>
   </div>
+  <!-- Update card -->
+  <div class="col-lg-6">
+  <div class="card" style="display:none;" id="updatecard">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> Editar Usuario
+      </div>
+      <div class="card-body">
+        <tr >
+         <table class="table" >
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Usuario</th>
+              <th>E-mail</th>
+              <th>Tipo de Usuario</th>
+              <th></th>
+              
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+               <td>
+                 <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
+               </td>
+               <td>
+                  <input class="form-control" id="username-update" name="username-update" placeholder="" type="text" [(ngModel)]="usernameupdate">
+                </td>
+                <td>
+                    <input class="form-control" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
+                  </td>
+                    <td>
+                    <ngx-select
+          
+          
+          [items]="Roles"
+          [(ngModel)]="roleupdate"
+          placeholder="Seleccionar rol">
+          
+        </ngx-select>
+      </td>
+              <td>              
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        </tr>
+  
+        <tr>
+            <button type="button" class="btn btn-info" (click)="saveChanges()">
+                Guardar cambios
+              </button>
+          </tr>
+      </div>
+      </div>    
+      
+    </div>
+  </div>
+  
+
+
 </div>
+<!-- Infomodal -->
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-info" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Nuevo Usuario</h4>
+          <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          <input class="form-control" id="username-input" name="username-input" placeholder="Ingresar Username" type="text" [(ngModel)]="username">
+          
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+          <input class="form-control" id="password-input" name="password-input" placeholder="Ingresar Password" type="password" [(ngModel)]="password">
+          
+
+          </div>
+          <br>
+          <div >
+         <ngx-select
+          
+          [allowClear]="true"
+          [items]="Roles"
+          [(ngModel)]="role"
+          placeholder="Seleccionar rol">
+          
+        </ngx-select>
+        
+        </div>
+        <br>
+        <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          <input class="form-control" id="name-input" name="name-input" placeholder="Ingresar Nombre" type="text" [(ngModel)]="name">
+        </div>
+          <br>
+          <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+          <input class="form-control" id="email-input" name="email-input" placeholder="Ingresar Email" type="email" [(ngModel)]="email">
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="infoModal.hide()" #closeBtn>Close</button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="addUser($event)" >Guardar cambios</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  

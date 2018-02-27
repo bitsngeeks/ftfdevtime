@@ -1,0 +1,114 @@
+<div class="animated fadeIn">
+  <!-- -->
+  <div class="row">
+    <div class="col-lg-5">
+    <!-- Infousers card -->
+      <div class="card">
+            <div class="card-header">           
+      <i class="fa fa-align-justify"></i> Proyectos
+    </div>
+    <div class="card-body">
+      <tr >
+       <table class="table" >
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Tiempo de desarrollo</th>
+            <th>Opciones</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of resultProjects">
+            <td>{{project.name}}</td>
+            <td>{{project.description}}</td>
+            <td ><button class="btn btn-primary" type="button"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>
+          
+            <td>
+              <span class="text-primary h4"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateProject(project._id)></i></span>
+              <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=deleteProject(project._id)></i> </span>      
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      </tr>
+
+      <tr>
+          <button type="button" class="btn btn-info" (click)="infoModal.show()" (click)="clearVals()">
+              Agregar Proyecto
+            </button>
+        </tr>
+    </div>    
+    </div>
+  </div>
+  <!-- Update card -->
+  <div class="col-lg-6">
+  <div class="card" style="display:none;" id="updatecard">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> Editar Proyecto
+      </div>
+      <div class="card-body">
+          <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+              <div class="col-md-9">
+                <input type="text" id="text-input" name="text-input" class="form-control" placeholder="Ingrese un nombre" [(ngModel)]="nameUpdate">
+              </div>
+            </div>
+          <br>
+          <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="textarea-input">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="textarea-input" name="textarea-input" rows="9" class="form-control" placeholder="Ingrese una descripción" [(ngModel)]="descriptionUpdate"></textarea>
+            </div>
+          </div>
+
+            <button type="button" class="btn btn-info" (click)="saveChanges()">
+                Guardar cambios
+              </button>
+
+      </div>
+      </div>    
+      
+    </div>
+  </div>
+  
+
+
+</div>
+<!-- Infomodal -->
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-info" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Nuevo Proyecto</h4>
+          <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+            <div class="col-md-9">
+              <input type="text" id="text-input" name="text-input" class="form-control" placeholder="Ingrese un nombre" [(ngModel)]="name">
+            </div>
+          </div>
+        <br>
+        <div class="form-group row">
+          <label class="col-md-3 form-control-label" for="textarea-input">Descripción</label>
+          <div class="col-md-9">
+            <textarea id="textarea-input" name="textarea-input" rows="9" class="form-control" placeholder="Ingrese una descripción" [(ngModel)]="description"></textarea>
+          </div>
+        </div>
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="infoModal.hide()" #closeBtn>Close</button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="addProject($event)" >Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  
