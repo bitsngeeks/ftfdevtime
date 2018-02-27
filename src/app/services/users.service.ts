@@ -52,6 +52,19 @@ export class UsersService {
         
   }
 
+  saveChanges(id:string, name:string, username:string, email:string, role:boolean){
+    return this.http.put(this.url+'/'+id,
+      {
+        "username": username,
+        "role" : role,
+        "name" : name,
+        "email": email
+
+      })
+      
+      .toPromise();
+  }
+
   
 
 }

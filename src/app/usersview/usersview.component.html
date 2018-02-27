@@ -1,8 +1,10 @@
 <div class="animated fadeIn">
-<div class="col-lg-6">
+  <!-- -->
+  <div class="row">
+    <div class="col-lg-5">
     <!-- Infousers card -->
-  <div class="card">
-    <div class="card-header">
+      <div class="card">
+            <div class="card-header">           
       <i class="fa fa-align-justify"></i> Usuarios
     </div>
     <div class="card-body">
@@ -13,10 +15,8 @@
             <th>Nombre</th>
             <th>Usuario</th>
             <th>E-mail</th>
-            <th>Tipo de Usuario</th>
-            <th></th>
+            <th>Tipo</th>
             
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -25,11 +25,11 @@
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
             <td>{{user.role && "Admin" || "Developer"}}</td>
-            <td></td>
+          
             <td>
-            <button class="btn btn-warning" type="button" (click)=warningModal.show()>Editar</button>
-            <button class="btn btn-danger" type="button" (click)=removeUser(user._id)>Eliminar</button>
-            
+            <button class="btn btn-warning" type="button" (click)=updateUser(user._id)>Editar</button></td>
+            <td>
+            <button class="btn btn-danger" type="button" (click)=removeUser(user._id)>Eliminar</button>            
           </td>
           </tr>
         </tbody>
@@ -43,10 +43,11 @@
             </button>
         </tr>
     </div>    
-    
+    </div>
   </div>
   <!-- Update card -->
-  <div class="card" id="updatecard">
+  <div class="col-lg-6">
+  <div class="card" style="display:none;" id="updatecard">
       <div class="card-header">
         <i class="fa fa-align-justify"></i> Editar Usuario
       </div>
@@ -65,12 +66,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of this.resultUsers">
-              <td>{{user.name}}</td>
-              <td>{{user.username}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.role && "Admin" || "Developer"}}</td>
-              <td></td>
+            <tr>
+               <td>
+                 <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
+               </td>
+               <td>
+                  <input class="form-control" id="username-update" name="username-update" placeholder="" type="text" [(ngModel)]="usernameupdate">
+                </td>
+                <td>
+                    <input class="form-control" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
+                  </td>
+                    <td>
+                    <ngx-select
+          
+          
+          [items]="Roles"
+          [(ngModel)]="roleupdate"
+          placeholder="Seleccionar rol">
+          
+        </ngx-select>
+      </td>
               <td>              
             </td>
             </tr>
@@ -80,15 +95,17 @@
         </tr>
   
         <tr>
-            <button type="button" class="btn btn-info" (click)="infoModal.show()">
+            <button type="button" class="btn btn-info" (click)="saveChanges()">
                 Guardar cambios
               </button>
           </tr>
+      </div>
       </div>    
       
     </div>
+  </div>
   
-</div>
+
 
 </div>
 <!-- Infomodal -->
