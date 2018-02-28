@@ -46,7 +46,7 @@ export class DevtimeComponent implements OnInit {
   }
 
   projectSelect(event){
-    this.projectsService.getHours(this.ProjectId,this.date)
+    this.projectsService.getHours(this.ProjectId,this.date,'day')
     .then((result) => {
       this.minutes = result._body % 60;
       this.hours = Math.floor(result._body / 60);
@@ -55,7 +55,7 @@ export class DevtimeComponent implements OnInit {
 
   onDateChanged(event: IMyDateModel): void {
     this.date = new Date(event.jsdate)
-    this.projectsService.getHours(this.ProjectId,this.date)
+    this.projectsService.getHours(this.ProjectId,this.date,'day')
     .then((result) => {
       this.minutes = result._body % 60;
       this.hours = Math.floor(result._body / 60);
@@ -65,13 +65,14 @@ export class DevtimeComponent implements OnInit {
 logHours(){
   if(!this.ProjectId){
     alert("Seleccione un proyecto")
-  }else if((this.hours==0 || this.hours===null) && (this.minutes==0 || this.minutes===null)){
+  }else if((this.hours==0 || this.hours===null) && (this.minutes==0 || this.minutes===null) && (this.hours)){
     alert("Escriba una medida de tiempo no nula (Minutos,horas o una combinacion de ambas)")
   } else if(!this.model){
     alert("Seleccione una fecha")
   } else{
     var time = this.hours*60 + this.minutes;
     this.projectsService.logHours(this.ProjectId,this.model.jsdate,time);
+    alert("Tiempo registrado exitosamente")
   }
   
 }

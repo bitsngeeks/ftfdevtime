@@ -5,11 +5,19 @@ import { Http, Response, Headers } from '@angular/http';
 export class ProjectsService {
 
   url='http://192.168.0.20:3000/api/projects';
-  
+  token="";
+  headers:Headers;
   constructor(private http:Http) {
     
 
    }
+
+/*    getUser(): Promise<any>{
+    this.token =localStorage.getItem("token");
+
+    this.headers = new Headers({'Content-Type': 'application/json', Authorization: `Bearer ${this.token}`});
+    return this.http.get(this.url+'/me',{headers: this.headers}).toPromise();        
+  } */
 
    getProjects(): Promise<any>{
     return this.http.get(this.url).toPromise();        
@@ -34,16 +42,21 @@ export class ProjectsService {
   }
 
   logHours(id,date,time): Promise<any>{
+    this.token =localStorage.getItem("token");
+    this.headers = new Headers({'Content-Type': 'application/json', Authorization: `Bearer ${this.token}`});
     return this.http.post(this.url+"/log/"+id,{
       "date": date,
       "time": time
-    }).toPromise();        
+    },{headers: this.headers}).toPromise();        
   }
 
-  getHours(id,date): Promise<any>{
+  getHours(id,date,period): Promise<any>{
+    this.token =localStorage.getItem("token");
+    this.headers = new Headers({'Content-Type': 'application/json', Authorization: `Bearer ${this.token}`});
     return this.http.post(this.url+"/logs/"+id,{
-      "date": date
-    }).toPromise();        
+      "date": date,
+      "period": period
+    },{headers: this.headers}).toPromise();        
   }
 
 

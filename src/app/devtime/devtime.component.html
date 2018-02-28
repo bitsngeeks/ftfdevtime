@@ -39,14 +39,14 @@
           <div class="col-sm-4">
             <div class="form-group has-success">
               <label for="hours">Horas</label>
-              <input type="number" class="form-control " id="hours" placeholder="Horas" [(ngModel)]="hours">
+              <input type="number"  min="0" step="1" class="form-control " id="hours" placeholder="Horas" [(ngModel)]="hours">
 <!--               <span class="help-block">Puedes ingresar el tiempo tanto en horas como en</span> -->
             </div>
           </div>
           <div class="col-sm-4">
             <div class="form-group">
               <label for="minutes">Minutos</label>
-              <input type="number" class="form-control" id="minutes" placeholder="Minutos" [(ngModel)]="minutes">
+              <input type="number"  min="0" step="1" class="form-control" id="minutes" placeholder="Minutos" [(ngModel)]="minutes">
 <!--               <span class="help-block">Please enter your email</span> -->
             </div>
           </div>

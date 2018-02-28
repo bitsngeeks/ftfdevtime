@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("token",result.json().token);
       this.usersService.getUser()
       .then((result) => {
-        console.log(result.json())
+        localStorage.setItem("userId",result.json()._id)
         if(result.json().role){
           this.router.navigateByUrl('/admin/charts'); 
         } else{
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         
       })
       
-      console.log(localStorage.getItem("token"));
+     
     })
   }
 

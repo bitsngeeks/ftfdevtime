@@ -1,17 +1,50 @@
-import { Component } from '@angular/core';
+import { UsersService } from './../services/users.service';
+import { Component,OnInit } from '@angular/core';
+import { ProjectsService } from 'app/services/projects.service';
+declare var require: any
+var moment = require('moment');
 
 @Component({
   templateUrl: 'chartjs.component.html'
 })
 export class ChartJSComponent {
-
+  public usersResult=[];
+  constructor(public projectsService: ProjectsService, public userService: UsersService) { }
   // lineChart
+  
+  ngOnInit(){
+    this.userService.getUsers()
+    .then((result) => {
+      result.json().forEach(element => {
+        if(!element.role){  
+          this.usersResult.push(element)
+        }
+      });
+
+        this.usersResult.forEach(element => {
+          var data=[];
+          var weeks=-3;
+      
+          for (let index = 0; index < 7; index++) {
+            this.projectsService.getHours("5a903ad9f43bbd10cc86c9e2",moment().add(weeks+index,'weeks'),'week')
+          .then((result)=>{data.push(result.json())})
+
+          }
+          this.lineChartData.push({data: data, label: 'Series A'})
+          console.log(this.lineChartData)
+        })
+    })
+  }
+
+
   public lineChartData: Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
     {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
   ];
-  public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  
+  public week = moment().week()
+  public lineChartLabels: Array<any> = ['Week '+(this.week-3), 'Week '+(this.week-2), 'Week '+(this.week-1), 'Week '+(this.week), 'Week '+(this.week+1), 'Week '+(this.week+2), 'Week '+(this.week+3)];
   public lineChartOptions: any = {
     animation: false,
     responsive: true
@@ -93,5 +126,6 @@ export class ChartJSComponent {
   public chartHovered(e: any): void {
     console.log(e);
   }
+
 
 }

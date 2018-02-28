@@ -2,7 +2,7 @@
   <div class="card-columns cols-2">
     <div class="card">
       <div class="card-header">
-        Line Chart
+        Porcentaje de utilización
         <div class="card-actions">
           <a href="http://www.chartjs.org">
             <small class="text-muted">docs</small>
@@ -12,18 +12,18 @@
       <div class="card-body">
         <div class="chart-wrapper">
           <canvas baseChart class="chart"
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [colors]="lineChartColours"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
+          [(datasets)]="lineChartData"
+          [(labels)]="lineChartLabels"
+          [(options)]="lineChartOptions"
+          [(colors)]="lineChartColours"
+          [(legend)]="lineChartLegend"
+          [(chartType)]="lineChartType"
           (chartHover)="chartHovered($event)"
           (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
     </div>
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header">
         Bar Chart
         <div class="card-actions">
@@ -125,6 +125,6 @@
           (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
