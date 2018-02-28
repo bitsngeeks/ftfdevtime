@@ -2,7 +2,7 @@ import { UsersService } from './../services/users.service';
 import { Component,OnInit, ViewChild } from '@angular/core';
 import { ProjectsService } from 'app/services/projects.service';
 import {BaseChartDirective} from 'ng2-charts/ng2-charts';
-import {INgxMyDpOptions, IMyDateModel} from 'ngx-mydatepicker';
+import {IMyDrpOptions, IMyDateRangeModel} from 'mydaterangepicker';
 declare var require: any
 var moment = require('moment');
 
@@ -11,18 +11,63 @@ var moment = require('moment');
 })
 export class ChartJSComponent {
   public date = new Date();
-  public date_start = new Date();
-  public date_end = new Date();
+  public date_start = new Date(moment().add(-1,'day').toISOString());
+  public date_end = new Date(moment().add(1,'day').toISOString());
+  public Frec=[{
+    id:'day',
+    text:"Diario"
+  },
+  {
+    id:'week',
+    text:"Semanal"
+  },
+  {
+    id:'month',
+    text:"Mensual"
+  },
+  {
+    id:'year',
+    text:"Anual"
+  }
+  ] 
+  public Types=[{
+    id:1,
+    text:"Porcentaje de Utilización"
+  },
+  {
+    id:2,
+    text:"Producción por desarrolador"
+  },
+  {
+    id:3,
+    text:"Producción por cliente"
+  }
+  ]
+  public Type;
 
-  myOptions: INgxMyDpOptions = {
-    disableSince: {year: this.date.getFullYear(), month: this.date.getMonth() + 1, day: this.date.getDate()+1},
+  Views=[{
+    id:true,
+    text:"Individual"
+  },
+  {
+    id:false,
+    text:"Total"
+  }]
+  
+  frecText:string='week';
+  View:Boolean=true;
+
+
+  myDateRangePickerOptions: IMyDrpOptions = {
+/*     disableSince: {year: this.date.getFullYear(), month: this.date.getMonth() + 1, day: this.date.getDate()+1}, */
     dateFormat: 'dd.mm.yyyy',
-  };
+};
 
-  public model1: any = { jsdate: new Date() };
-  public model2: any = { jsdate: new Date() };
+  private model: any = {beginDate: {year: 2018, month: 2, day: 27},
+                        endDate: {year: 2018, month: 3, day: 1}};
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public usersResult=[];
+  public projectResult=[];
   constructor(public projectsService: ProjectsService, public userService: UsersService) { }
   // lineChart
   
@@ -35,66 +80,85 @@ export class ChartJSComponent {
           this.usersResult.push(element)
         }
       });
-      
-        this.usersResult.forEach(element => {
-          var data=[];
-
-               console.log(moment().toISOString())
-            this.projectsService.adminGetHours("5a96d1cf6b6c7f26e87efe82",element._id,moment().add(-3,'day').toISOString()+"",moment().add(+3,'day').toISOString()+"",'day')
-          .then((result)=>{
-            result.json().log.forEach(element => {
-              data.push(element.time)
-            });
-            this.lineChartLabels=[]
-            var start= Math.floor(result.json().diff/2)*(-1);
-           for (let index = 0; index < result.json().diff; index++) {
-            
-            this.lineChartLabels.push(moment().add(start+index,'day').format('DD/MM/YYYY'))
-             
-           }
-            this.tempChartData.push({data: data, label: element.name})
-            console.log(this.tempChartData)
-       /*      console.log(result.json().log) */
-            /* data.push(result.json()) */
-          
-          })       
- 
-          
-          
-        })
+    })
+    this.projectsService.getProjects()
+    .then((result) => {
+      this.projectResult=result.json();
     })
   }
+  onDateRangeChanged(event: IMyDateRangeModel) {
+    // event properties are: event.beginDate, event.endDate, event.formatted,
+    // event.beginEpoc and event.endEpoc
+    this.date_start=new Date(event.beginJsDate)
+    this.date_end=new Date(event.endJsDate)
+    this.getUtilPercent();
 
-  onDateChangedStart(event: IMyDateModel): void {
-    this.date_start = new Date(event.jsdate)
 }
-  onDateChangedEnd(event: IMyDateModel): void {
-    this.date_end = new Date(event.jsdate)
-}
+  frecSelect(){
+    this.getUtilPercent();
+  }
+  viewSelect(){
+    this.getUtilPercent();
+  }
+  typeSelect(){
+
+    this.getUtilPercent();
+  }
+
 
   getUtilPercent(){
+    if(this.View){
+      var factor=0;
+    switch (this.frecText) {
+      case "day":
+        factor=8*60;
+        break;
+      case "week":
+        factor=5*8*60;
+        break;
+      case "month":
+        factor=30*8*60;
+        break;
+      case "year":
+        factor=260*8*60;
+        break;
+    
+      default:
+        break;
+    }
     this.tempChartData=[]
+ 
     this.usersResult.forEach(element => {
-      var data=[];
-        this.projectsService.adminGetHours("5a96d1cf6b6c7f26e87efe82",element._id,moment().add(-3,'day').toISOString()+"",moment().add(+3,'day').toISOString()+"",'day')
-      .then((result)=>{
-        result.json().log.forEach(element => {
-          data.push(element.time/(8*60))
-        });
-        this.lineChartLabels=[]
-        var start= Math.floor(result.json().diff/2)*(-1);
-       for (let index = 0; index < result.json().diff; index++) {
         
-        this.lineChartLabels.push(moment().add(start+index,'day').format('DD/MM/YYYY'))
-         
-       }
-        this.tempChartData.push({data: data, label: element.name})
-        
-      })       
+        var data =[]
 
+      
+
+      
+      this.projectResult.forEach(element1 =>{
+        this.projectsService.adminGetHours(element1._id,element._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+        .then((result)=>{
+          
+          result.json().log.forEach(function(element,index,array) {
+            if(!data[index]){
+              data[index]=0;
+            }            
+            data[index]+=element.time/factor*100;
+          });
+          this.lineChartLabels=[]       
+         for (let index = 0; index < result.json().diff; index++) {        
+          this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+         }
+              
+        })   
+      });
+      
+        this.tempChartData.push({data: data, label: element.name}) 
+    
       
       
     })
+    
    
     setTimeout(() => {
       if (this.chart && this.chart.chart && this.chart.chart.config) {
@@ -107,6 +171,76 @@ export class ChartJSComponent {
         }
       }
   });
+    }else{
+  
+      var factor=0;
+    switch (this.frecText) {
+      case "day":
+        factor=8*60;
+        break;
+      case "week":
+        factor=5*8*60;
+        break;
+      case "month":
+        factor=30*8*60;
+        break;
+      case "year":
+        factor=260*8*60;
+        break;
+    
+      default:
+        break;
+    }
+    this.tempChartData=[]
+    var data =[]
+    this.usersResult.forEach((element,index1,array1) => {
+        
+        
+
+      
+
+     
+      this.projectResult.forEach(element1 =>{
+        this.projectsService.adminGetHours(element1._id,element._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+        .then((result)=>{
+          
+          result.json().log.forEach(function(element,index,array) {
+            if(!data[index]){
+              data[index]=0;
+            }            
+            data[index]+=element.time/factor*100;
+          });
+          this.lineChartLabels=[]       
+         for (let index = 0; index < result.json().diff; index++) {        
+          this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+         }
+              
+        })   
+      });
+      this.tempChartData.push({data: data, label: "Porcentaje de utilización"})
+        if(index1==(array1.length-1)){
+          
+        }
+        
+        
+      
+      
+    })
+    
+   
+    setTimeout(() => {
+      if (this.chart && this.chart.chart && this.chart.chart.config) {
+        
+/*           this.chart.chart.config.data.labels = this.labels; */
+        if(this.chart !== undefined){
+          this.lineChartData=this.tempChartData
+          this.chart.ngOnDestroy();
+          this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
+        }
+      }
+  });
+    }
+    
   }
 
   public tempChartData: Array<any> = [
@@ -201,13 +335,13 @@ export class ChartJSComponent {
     console.log(e);
   }
 
-  update(){
+ /*  update(){
     
   
     this.lineChartData=this.tempChartData
     setTimeout(() => {
       if (this.chart && this.chart.chart && this.chart.chart.config) {
-/*           this.chart.chart.config.data.labels = this.labels; */
+
         if(this.chart !== undefined){
           this.chart.ngOnDestroy();
           this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
@@ -215,6 +349,6 @@ export class ChartJSComponent {
       }
   });
   }
-
+ */
 
 }

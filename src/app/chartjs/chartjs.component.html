@@ -5,48 +5,51 @@
       </div>
       <div class="card-body">
         <div class="row">
-            <div class="form-group col-sm-4">
-              <label for="">Fecha Inicial</label>
+            <div class="form-group col-sm-3">
+              <label for="">Rango de fechas</label>
               <form>
-                <div class="input-group">
-                    <input class="form-control" style="float:none" placeholder="Seleccione una fecha" ngx-mydatepicker name="mydate"
-                            [(ngModel)]="model1" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChangedStart($event)"/>
-            
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-                            <i class="fa fa-calendar"></i>
-                        </button>
-                    </span>
-                </div>
+                    <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    (dateRangeChanged)="onDateRangeChanged($event)"
+                    [(ngModel)]="model" required></my-date-range-picker>
             </form>
             </div>
-            <div class="form-group col-sm-4">
-              <label for="">Fecha final</label>
-              <form>
-                <div class="input-group">
-                    <input class="form-control" style="float:none" placeholder="Seleccione una fecha" ngx-mydatepicker name="mydate"
-                            [(ngModel)]="model2" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChangedEnd($event)"/>
-            
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-                            <i class="fa fa-calendar"></i>
-                        </button>
-                    </span>
-                </div>
-            </form>
+            <div class="form-group col-sm-3">
+              <label for="">Frecuencia</label>
+              <ngx-select 
+              [allowClear]="true"
+              [items]="Frec"
+              [(ngModel)]="frecText"
+              (select)="frecSelect($event)"
+              placeholder="Error: contacte al programador">
+              </ngx-select>
+            </div>
+            <div class="form-group col-sm-3">
+              <label for="">Vista</label>
+              <ngx-select 
+              [allowClear]="true"
+              [items]="Views"
+              [(ngModel)]="View"
+              (select)="viewSelect($event)"
+              placeholder="Error: contacte al programador">
+              </ngx-select>
+            </div>
+            <div class="form-group col-sm-3">
+              <label for="">Estadistica</label>
+              <ngx-select 
+              [allowClear]="true"
+              [items]="Types"
+              [(ngModel)]="Type"
+              (select)="typeSelect($event)"
+              placeholder="Seleccione una estadistica a mostrar">
+              </ngx-select>
             </div>
           </div>
       </div>
     </div>
-  <div class="card-columns cols-2">
-    <div class="card">
+  <div class="card-columns cols-2" [ngSwitch]="Type">
+    <div class="card" *ngSwitchCase="1">
       <div class="card-header">
         Porcentaje de utilización
-        <div class="card-actions">
-          <a (click)=update()>
-            <small class="text-muted">docs</small>
-          </a>
-        </div>
       </div>
       <div class="card-body">
         <div class="chart">
