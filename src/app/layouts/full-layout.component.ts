@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
 
 
 @Component({
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './full-layout.component.html'
 })
 export class FullLayoutComponent implements OnInit {
+
+  
 
   public disabled = false;
   public status: {isopen: boolean} = {isopen: false};
@@ -18,6 +21,16 @@ export class FullLayoutComponent implements OnInit {
     $event.preventDefault();
     $event.stopPropagation();
     this.status.isopen = !this.status.isopen;
+  }
+  constructor(public router: Router) { }
+
+
+  logout(){
+    
+    localStorage.removeItem("token");
+    this.router.navigateByUrl('/login');
+
+
   }
 
   ngOnInit(): void {}

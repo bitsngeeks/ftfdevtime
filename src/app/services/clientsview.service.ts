@@ -28,6 +28,12 @@ export class ClientsviewService {
     ).toPromise();
         
   }
+  addProjectToClient(idC:string, array){
+    return this.http.put(this.url+'/'+idC,
+      {
+        "projects": array
+      }).toPromise();
+  }
   removeClient(id:String): Promise<any>{
     return this.http.delete(this.url+'/'+id)
       
@@ -56,4 +62,13 @@ export class ClientsviewService {
       
       .toPromise();
   }
+  // removeProjectFromClient(id:String): Promise<any>{
+  //   return this.http.put(this.url+'/'+id,
+  //      {
+  //         "_id" : id()
+  //      })
+      
+  //     .toPromise();
+        
+  // }
 }

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanActivate} from '@angular/router';
 
 // Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
 import { FullLayoutDevComponent } from './layouts/full-layout-dev.component';
 import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { UsersviewComponent } from './usersview/usersview.component';
+import { LoginRedirect } from './services/login-redirect.service';
 
 export const routes: Routes = [
   {
@@ -22,19 +23,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'charts',
-        loadChildren: './chartjs/chartjs.module#ChartJSModule'
+        loadChildren: './chartjs/chartjs.module#ChartJSModule',
+        canActivate:[LoginRedirect]
       },
       {
         path: 'usersview',
-        loadChildren: './usersview/usersview.module#UsersviewModule'
+        loadChildren: './usersview/usersview.module#UsersviewModule',
+        canActivate:[LoginRedirect]
       },
       {
         path: 'projectsview',
-        loadChildren: './projectsview/projectsview.module#ProjectsviewModule'
+        loadChildren: './projectsview/projectsview.module#ProjectsviewModule',
+        canActivate:[LoginRedirect]
       },
       {
         path: 'clientsview',
-        loadChildren: './clientsview/clientsview.module#ClientsviewModule'
+        loadChildren: './clientsview/clientsview.module#ClientsviewModule',
+        canActivate:[LoginRedirect]
       }
     ]
   },
