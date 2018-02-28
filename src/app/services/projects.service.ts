@@ -50,12 +50,23 @@ export class ProjectsService {
     },{headers: this.headers}).toPromise();        
   }
 
-  getHours(id,date,period): Promise<any>{
+  getHours(id,dateStart,dateEnd,period): Promise<any>{
     this.token =localStorage.getItem("token");
     this.headers = new Headers({'Content-Type': 'application/json', Authorization: `Bearer ${this.token}`});
     return this.http.post(this.url+"/logs/"+id,{
-      "date": date,
+      "date_start": dateStart,
+      "date_end": dateEnd,
       "period": period
+    },{headers: this.headers}).toPromise();        
+  }
+  adminGetHours(id,userId,dateStart,dateEnd,period): Promise<any>{
+    this.token =localStorage.getItem("token");
+    this.headers = new Headers({'Content-Type': 'application/json', Authorization: `Bearer ${this.token}`});
+    return this.http.post(this.url+"/adminlogs/"+id,{
+      "date_start": dateStart,
+      "date_end": dateEnd,
+      "period": period,
+      "user_id": userId
     },{headers: this.headers}).toPromise();        
   }
 

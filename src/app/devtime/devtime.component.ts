@@ -46,19 +46,21 @@ export class DevtimeComponent implements OnInit {
   }
 
   projectSelect(event){
-    this.projectsService.getHours(this.ProjectId,this.date,'day')
+    this.projectsService.getHours(this.ProjectId,this.date,this.date,'day')
     .then((result) => {
-      this.minutes = result._body % 60;
-      this.hours = Math.floor(result._body / 60);
+      console.log(result.json())
+      this.minutes = result.json().log[0].time % 60;
+      this.hours = Math.floor(result.json().log[0].time / 60);
     })
   }
 
   onDateChanged(event: IMyDateModel): void {
     this.date = new Date(event.jsdate)
-    this.projectsService.getHours(this.ProjectId,this.date,'day')
+    this.projectsService.getHours(this.ProjectId,this.date,this.date,'day')
     .then((result) => {
-      this.minutes = result._body % 60;
-      this.hours = Math.floor(result._body / 60);
+      console.log(result.json())
+      this.minutes = result.json().log[0].time % 60;
+      this.hours = Math.floor(result.json().log[0].time / 60);
     })
 }
 

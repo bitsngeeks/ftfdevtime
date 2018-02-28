@@ -1,6 +1,8 @@
 import { UsersService } from './../services/users.service';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, ViewChild } from '@angular/core';
 import { ProjectsService } from 'app/services/projects.service';
+import {BaseChartDirective} from 'ng2-charts/ng2-charts';
+import {INgxMyDpOptions, IMyDateModel} from 'ngx-mydatepicker';
 declare var require: any
 var moment = require('moment');
 
@@ -8,11 +10,24 @@ var moment = require('moment');
   templateUrl: 'chartjs.component.html'
 })
 export class ChartJSComponent {
+  public date = new Date();
+  public date_start = new Date();
+  public date_end = new Date();
+
+  myOptions: INgxMyDpOptions = {
+    disableSince: {year: this.date.getFullYear(), month: this.date.getMonth() + 1, day: this.date.getDate()+1},
+    dateFormat: 'dd.mm.yyyy',
+  };
+
+  public model1: any = { jsdate: new Date() };
+  public model2: any = { jsdate: new Date() };
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public usersResult=[];
   constructor(public projectsService: ProjectsService, public userService: UsersService) { }
   // lineChart
   
   ngOnInit(){
+
     this.userService.getUsers()
     .then((result) => {
       result.json().forEach(element => {
@@ -20,33 +35,92 @@ export class ChartJSComponent {
           this.usersResult.push(element)
         }
       });
-
+      
         this.usersResult.forEach(element => {
           var data=[];
-          var weeks=-3;
-      
-          for (let index = 0; index < 7; index++) {
-            this.projectsService.getHours("5a903ad9f43bbd10cc86c9e2",moment().add(weeks+index,'weeks'),'week')
-          .then((result)=>{data.push(result.json())})
 
-          }
-          this.lineChartData.push({data: data, label: 'Series A'})
-          console.log(this.lineChartData)
+               console.log(moment().toISOString())
+            this.projectsService.adminGetHours("5a96d1cf6b6c7f26e87efe82",element._id,moment().add(-3,'day').toISOString()+"",moment().add(+3,'day').toISOString()+"",'day')
+          .then((result)=>{
+            result.json().log.forEach(element => {
+              data.push(element.time)
+            });
+            this.lineChartLabels=[]
+            var start= Math.floor(result.json().diff/2)*(-1);
+           for (let index = 0; index < result.json().diff; index++) {
+            
+            this.lineChartLabels.push(moment().add(start+index,'day').format('DD/MM/YYYY'))
+             
+           }
+            this.tempChartData.push({data: data, label: element.name})
+            console.log(this.tempChartData)
+       /*      console.log(result.json().log) */
+            /* data.push(result.json()) */
+          
+          })       
+ 
+          
+          
         })
     })
   }
 
+  onDateChangedStart(event: IMyDateModel): void {
+    this.date_start = new Date(event.jsdate)
+}
+  onDateChangedEnd(event: IMyDateModel): void {
+    this.date_end = new Date(event.jsdate)
+}
 
+  getUtilPercent(){
+    this.tempChartData=[]
+    this.usersResult.forEach(element => {
+      var data=[];
+        this.projectsService.adminGetHours("5a96d1cf6b6c7f26e87efe82",element._id,moment().add(-3,'day').toISOString()+"",moment().add(+3,'day').toISOString()+"",'day')
+      .then((result)=>{
+        result.json().log.forEach(element => {
+          data.push(element.time/(8*60))
+        });
+        this.lineChartLabels=[]
+        var start= Math.floor(result.json().diff/2)*(-1);
+       for (let index = 0; index < result.json().diff; index++) {
+        
+        this.lineChartLabels.push(moment().add(start+index,'day').format('DD/MM/YYYY'))
+         
+       }
+        this.tempChartData.push({data: data, label: element.name})
+        
+      })       
+
+      
+      
+    })
+   
+    setTimeout(() => {
+      if (this.chart && this.chart.chart && this.chart.chart.config) {
+        
+/*           this.chart.chart.config.data.labels = this.labels; */
+        if(this.chart !== undefined){
+          this.lineChartData=this.tempChartData
+          this.chart.ngOnDestroy();
+          this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
+        }
+      }
+  });
+  }
+
+  public tempChartData: Array<any> = [
+    
+  ]
   public lineChartData: Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
-    {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
+    {data: [0, 0, 0, 0, 0, 0, 0], label: 'Series A'},
   ];
+
+  
   
   public week = moment().week()
   public lineChartLabels: Array<any> = ['Week '+(this.week-3), 'Week '+(this.week-2), 'Week '+(this.week-1), 'Week '+(this.week), 'Week '+(this.week+1), 'Week '+(this.week+2), 'Week '+(this.week+3)];
   public lineChartOptions: any = {
-    animation: false,
     responsive: true
   };
   public lineChartColours: Array<any> = [
@@ -120,11 +194,26 @@ export class ChartJSComponent {
 
   // events
   public chartClicked(e: any): void {
-    console.log(e);
+     console.log(e);
   }
 
   public chartHovered(e: any): void {
     console.log(e);
+  }
+
+  update(){
+    
+  
+    this.lineChartData=this.tempChartData
+    setTimeout(() => {
+      if (this.chart && this.chart.chart && this.chart.chart.config) {
+/*           this.chart.chart.config.data.labels = this.labels; */
+        if(this.chart !== undefined){
+          this.chart.ngOnDestroy();
+          this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
+        }
+      }
+  });
   }
 
 
