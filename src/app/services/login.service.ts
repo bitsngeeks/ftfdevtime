@@ -9,7 +9,7 @@ export class LoginService {
   url='http://192.168.0.20:3000/auth/signin';
   private headers: Headers = new Headers({'Content-Type': 'application/json'});
  
-  // first_name: string=localStorage.getItem("name");
+  first_name:string;
 
   constructor(private http:Http) {
     this.resultsLogin=[];
@@ -23,6 +23,18 @@ export class LoginService {
         },{headers: this.headers}).toPromise();
         
   }
+
+  changeName(){    
+    this.first_name=localStorage.getItem("name");
+  }
+
+  eraseName(){
+    localStorage.removeItem("name");
+    this.first_name=null;
+
+  }
+
+  
   
 
 }

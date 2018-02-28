@@ -7,6 +7,7 @@ import { FullLayoutDevComponent } from './layouts/full-layout-dev.component';
 import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { UsersviewComponent } from './usersview/usersview.component';
 import { LoginRedirect } from './services/login-redirect.service';
+import { DevRedirectService } from './services/dev-redirect.service';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,11 @@ export const routes: Routes = [
         path: 'clientsview',
         loadChildren: './clientsview/clientsview.module#ClientsviewModule',
         canActivate:[LoginRedirect]
+      },
+      {
+        path: '**',
+        loadChildren: './usersview/usersview.module#UsersviewModule',
+        canActivate:[LoginRedirect]
       }
     ]
   },
@@ -52,7 +58,13 @@ export const routes: Routes = [
     children: [
       {
         path: 'development',
-        loadChildren: './devtime/devtime.module#DevtimeModule'
+        loadChildren: './devtime/devtime.module#DevtimeModule',
+        canActivate:[DevRedirectService]
+      },
+      {
+        path: '**',
+        loadChildren: './devtime/devtime.module#DevtimeModule',
+        canActivate:[DevRedirectService]
       }
     ]
   },
@@ -68,7 +80,16 @@ export const routes: Routes = [
         loadChildren: './pages/pages.module#PagesModule',
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: 'pages/404',
+    pathMatch: 'full',
+    
   }
+
+
+  
 ];
 
 @NgModule({
