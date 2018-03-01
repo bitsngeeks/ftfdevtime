@@ -8,21 +8,20 @@ import { UsersService } from './../services/users.service';
 })
 export class LoginComponent implements OnInit {
 
-  public username=null;
-  public pass=null;
+  public username="";
+  public pass="";
   
 
   constructor(public loginService:LoginService, private router: Router, public usersService: UsersService) { }
 
   validateLogin(){
-    if(this.username!=null){
+    if(this.username!=""){
 
-      if(this.pass!=null){
-
+      if(this.pass!=""){
+        
         this.loginService.postLogin(this.username,this.pass)
        .then((result) => {
-         
-      
+        
         localStorage.setItem("token",result.json().token);
         this.usersService.getUser()
        .then((result) => {
@@ -35,7 +34,11 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/dev/development'); 
         }
         
-      })          
+      })   
+   
+ 
+      },(error)=>{
+        alert(error._body)
       })
 
       }else{
@@ -52,9 +55,8 @@ export class LoginComponent implements OnInit {
   enterKey(e){
     
   if (e.keyCode == 13) {
+    
       this.validateLogin();
-  }else{
-
   }
 }
 

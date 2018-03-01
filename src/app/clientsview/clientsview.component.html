@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
     <!-- -->
     <div class="row">
-      <div class="col-lg-5">
+      <div class="col-lg-6 paddingtables">
       <!-- Infoclients card -->
         <div class="card">
               <div class="card-header">           
@@ -9,7 +9,7 @@
               </div>
               <div class="card-body">
                 
-                <table class="table table-responsive" >
+                <table class="table" >
                   <thead>
                     <tr>
                       <th>Nombre</th>              
@@ -22,35 +22,33 @@
                     <tr *ngFor="let client of this.resultClients">
                       <td>{{client.name}}</td>
                       <td>{{client.email}}</td>
-                      <td>
+                      <td class="center">
                       <button class="btn btn-primary" type="button" (click)=getProjectsByClientId(client._id) #openBtn><i class="fa fa-star"></i>&nbsp; Ver Proyectos</button>
                       </td>
-                      <td>
-                      <span class="text-primary h4"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateClient(client._id)></i></span>
-                      <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeClient(client._id)></i> </span>        
+                      <td class="center">
+                      <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateClient(client._id)></i></span>
+                      <span class="text-danger h4 col-lg-6"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeClient(client._id)></i> </span>        
                       </td>
                     </tr>
                   </tbody>
-                </table>
-        
-       
-  
-        
-            <button type="button" class="btn btn-info" (click)="infoModal.show()" (click)="cleanModal()" >
+                </table>    
+                <div class="modal-footer">                    
+            <button type="button" class="btn btn-sm btn-primary" (click)="infoModal.show()" (click)="cleanModal()" >
                 Agregar Cliente
               </button>
-          
+          </div>
+
       </div>    
       </div>
     </div>
     <!-- Update card -->
-    <div class="col-lg-6">
+    <div class="col-lg-6 paddingtables">
     <div class="card" style="display:none;" id="updatecard">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Editar Cliente
         </div>
         <div class="card-body">
-          <tr >
+          
            <table class="table" >
             <thead>
               <tr>
@@ -59,11 +57,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                 <td>
+              <tr >
+                 <td >
                    <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
                  </td>
-                 <td>
+                 <td >
                     <input class="form-control col-lg-16" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
                   </td>
                  
@@ -71,13 +69,21 @@
             </tbody>
           </table>
           
-          </tr>
+          
     
-          <tr>
-              <button type="button" class="btn btn-info" (click)="saveChanges()">
+          <div class="modal-footer">
+          
+          
+              <button type="button" class="btn btn-sm btn-primary" (click)="saveChanges()">
                   Guardar cambios
                 </button>
-            </tr>
+                
+                <button type="button" class="btn btn-sm btn-secondary" (click)="cancel()">
+                    Cancelar
+                  </button>
+                </div>
+              
+            
         </div>
         </div>    
         
@@ -88,14 +94,14 @@
   <!-- Row de proyectos de clientes --> 
    <div class="row">
 
-      <div class="col-lg-5">
+      <div class="col-lg-6 paddintablesmin" >
           <!-- InfoProyects card -->
             <div class="card" style="display:none;" id="proyectscard">
                   <div class="card-header">           
             <i class="fa fa-align-justify"></i> Proyectos
                   </div>
                   <div class="card-body">
-                    <tr>
+                    
                     <table class="table" >
                       <thead>
                         <tr>
@@ -108,20 +114,23 @@
                         <tr *ngFor="let project of this.resultProjects">
                           <td>{{project.name}}</td>
                           <td>{{project.description}}</td>
-                          <td>                          
+                          <td class="center">                          
                           <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeProjectFromClient(project._id)></i> </span>        
                           </td>
                         </tr>
                       </tbody>
                     </table>
             
-            </tr>
-      
-            <tr>
-                <button type="button" class="btn btn-info" (click)="showAddProyect()">
+                    <div class="modal-footer">
+            
+                <button type="button" class="btn btn-sm btn-primary" (click)="showAddProyect()">
                     Agregar Proyecto
                   </button>
-              </tr>
+                  <button type="button" class="btn btn-sm btn-secondary" (click)="cancelProjects()">
+                      Cerrar
+                    </button>
+                  </div>
+              
           </div>    
           </div>
         </div>      
@@ -140,9 +149,11 @@
                         </ngx-select>
                   <br>
                   <div>
-                      <button type="button" class="btn btn-info" (click)="saveProjectAdded()">
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-sm btn-primary" (click)="saveProjectAdded()">
                           Guardar cambios
                         </button>
+                      </div>
                   </div>
                 </div>
                 </div>    
@@ -176,8 +187,8 @@
           </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="infoModal.hide()" #closeBtn>Close</button>
-            <button type="button" class="btn btn-sm btn-primary" (click)="addClient($event)" >Guardar cambios</button>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="infoModal.hide()" #closeBtn>Cerrar</button>
+            <button type="button" class="btn btn-sm btn-primary" (click)="addClient($event)" >Agregar cliente</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

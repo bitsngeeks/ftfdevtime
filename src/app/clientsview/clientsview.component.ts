@@ -21,6 +21,7 @@ export class ClientsviewComponent implements OnInit {
   resultProjectsNames:Object[];
   resultnewProjects:Object[];
   resulttocomparewith:Object[];
+  answer;
   flag:boolean;
   clientID:string;
   name:string;
@@ -58,26 +59,33 @@ export class ClientsviewComponent implements OnInit {
 
    cleanModal(){
 
-
+    document.getElementById('updatecard').style.display = "none";
     this.name="";
     this.email="";
+    this.emailupdate="";
+    this.nameupdate="";
 
    }
 
    addClient(event){
-    if(this.name!=null && this.email!=null)
-    {
-    this.clientsviewService.addClient(this.name,this.email)
-    .then(()=>this.getClients());
-    alert("Cliente Agregado");
-    this.closeBtn.nativeElement.click();
-
-    }else{
-      alert("Complete todos los campos");
-      
-    }
-    
-  }
+   var email2 = this.email;
+   function isValidEmailAddress(email2) {
+   var pattern = /^([a-z\d!#$%&'*+\-\/=?^_{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+   return pattern.test(email2);
+   }
+   if(this.name==""){
+     alert("Escriba un nombre")
+   }else if(this.email=="") {
+    alert("Escriba un email")
+   }
+   else if (!isValidEmailAddress(email2)) {
+    alert("Email invalido");
+   } else {     
+     this.clientsviewService.addClient(this.name,this.email).then(()=>this.getClients());
+     alert("Cliente Agregado");
+     this.closeBtn.nativeElement.click();
+   }    
+ }
 
   updateClient(id){
     document.getElementById('updatecard').style.display = "block";
@@ -100,12 +108,19 @@ export class ClientsviewComponent implements OnInit {
     })  
   }
   saveChanges(){
-
+    var email2 = this.emailupdate;
+    function isValidEmailAddress(email2) {
+    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    return pattern.test(email2);
+    }
     if(this.nameupdate==null || this.nameupdate==""){
       alert("Ingrese un Nombre válido");    
     }else if(this.emailupdate==null || this.emailupdate==""){
+      alert("Escriba un Email");
+    }else if(!isValidEmailAddress(email2)){
       alert("Ingrese un Email válido");
-    }else{
+    }else
+    {
     this.clientsviewService.saveChanges(this.idupdate,this.nameupdate,this.emailupdate)
     .then(()=>this.getClients());
     // console.log(this.idupdate,this.nameupdate,this.usernameupdate,this.emailupdate,this.roleupdate)
@@ -141,13 +156,21 @@ export class ClientsviewComponent implements OnInit {
   }
 
   removeClient(id){
-    this.clientsviewService.removeClient(id)
-    .then(()=>this.getClients());
-    alert("Cliente Eliminado");
+
+    this.answer= confirm("Estás seguro que quieres eliminar este cliente?")
+    if(this.answer){
+      this.clientsviewService.removeClient(id)
+      .then(()=>this.getClients());
+      alert("Cliente Eliminado");
+    }
+
+    
   }
 
   removeProjectFromClient(id){
 
+    this.answer= confirm("Estás seguro que quieres quitarle este proyecto?")
+    if(this.answer){
     this.resultProjectsids=[];
     
       this.clientsviewService.getClientById(this.clientID)
@@ -170,6 +193,7 @@ export class ClientsviewComponent implements OnInit {
           }
       )    
     })
+  }
   }
 
   showAddProyect(){
@@ -225,6 +249,17 @@ export class ClientsviewComponent implements OnInit {
     
   })
 
+  }
+  cancel(){
+    document.getElementById('updatecard').style.display = "none";
+
+    this.nameupdate="";    
+    this.emailupdate="";
+  }
+
+  cancelProjects(){
+    document.getElementById('proyectscard').style.display = "none";
+      
   }
 
   ngOnInit() {

@@ -1,14 +1,14 @@
 <div class="animated fadeIn">
   <!-- -->
   <div class="row">
-    <div class="col-lg-5">
+    <div class="col-lg-6 paddingtables">
     <!-- Infousers card -->
       <div class="card">
             <div class="card-header">           
       <i class="fa fa-align-justify"></i> Proyectos
     </div>
     <div class="card-body">
-      <tr >
+      
        <table class="table" >
         <thead>
           <tr>
@@ -26,25 +26,22 @@
             <td ><button class="btn btn-primary" type="button"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>
           
             <td>
-              <span class="text-primary h4"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateProject(project._id)></i></span>
-              <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=deleteProject(project._id)></i> </span>      
+              <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateProject(project._id)></i></span>
+              <span class="text-danger h4 col-lg-6"><i class="fa fa-trash"  style="cursor: pointer;" (click)=deleteProject(project._id)></i> </span>      
           </td>
           </tr>
         </tbody>
       </table>
-      
-      </tr>
-
-      <tr>
-          <button type="button" class="btn btn-info" (click)="infoModal.show()" (click)="clearVals()">
+          <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-primary" (click)="infoModal.show()" (click)="clearVals()">
               Agregar Proyecto
             </button>
-        </tr>
+          </div>
     </div>    
     </div>
   </div>
   <!-- Update card -->
-  <div class="col-lg-6">
+  <div class="col-lg-6 paddingtables" >
   <div class="card" style="display:none;" id="updatecard">
       <div class="card-header">
         <i class="fa fa-align-justify"></i> Editar Proyecto
@@ -64,10 +61,17 @@
             </div>
           </div>
 
-            <button type="button" class="btn btn-info" (click)="saveChanges()">
-                Guardar cambios
-              </button>
-
+          <div class="modal-footer">
+          
+          
+              <button type="button" class="btn btn-sm btn-primary" (click)="saveChanges()">
+                  Guardar cambios
+                </button>
+                
+                <button type="button" class="btn btn-sm btn-secondary" (click)="cancel()">
+                    Cancelar
+                  </button>
+                </div>
       </div>
       </div>    
       
@@ -104,8 +108,8 @@
           <br>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="infoModal.hide()" #closeBtn>Close</button>
-          <button type="button" class="btn btn-sm btn-primary" (click)="addProject($event)" >Save changes</button>
+          <button type="button" class="btn btn-sm btn-secondary" (click)="infoModal.hide()" #closeBtn>Cerrar</button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="addProject($event)" >Agregar Proyecto</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

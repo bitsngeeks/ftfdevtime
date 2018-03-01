@@ -13,6 +13,7 @@ export class ProjectsviewComponent implements OnInit {
   nameUpdate:string;
   idUpdate:string;
   descriptionUpdate:string;
+  answer;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -40,9 +41,14 @@ export class ProjectsviewComponent implements OnInit {
     }) 
   }
   deleteProject(id){
-    this.projectsService.deleteProject(id)
+
+    this.answer= confirm("Estás seguro que quieres eliminar este proyecto?")
+    if(this.answer){
+      this.projectsService.deleteProject(id)
     .then(()=>this.getProject());
     alert("Proyecto Eliminado");
+    }
+    
   }
 
   addProject(event){
@@ -82,6 +88,12 @@ export class ProjectsviewComponent implements OnInit {
     }
 
 
+  }
+  cancel(){
+    document.getElementById('updatecard').style.display = "none";
+
+    this.nameUpdate="";
+    this.descriptionUpdate="";
   }
 
   clearVals(){
