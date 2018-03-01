@@ -56,15 +56,18 @@ export class ChartJSComponent {
   
   frecText:string='week';
   View:Boolean=true;
-
-
+  public toggleTable = false;
+  public summaryPerc=[]
+  public summaryPercNum=[];
+  public tabNumber=0;
+  public elementsTable=[0,1,2,3,4]
   myDateRangePickerOptions: IMyDrpOptions = {
 /*     disableSince: {year: this.date.getFullYear(), month: this.date.getMonth() + 1, day: this.date.getDate()+1}, */
     dateFormat: 'dd.mm.yyyy',
 };
 
   private model: any = {beginDate: {year: 2018, month: 2, day: 27},
-                        endDate: {year: 2018, month: 3, day: 1}};
+                        endDate: {year: 2018, month: 2, day: 28}};
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public usersResult=[];
   public projectResult=[];
@@ -75,10 +78,12 @@ export class ChartJSComponent {
 
     this.userService.getUsers()
     .then((result) => {
+   
       result.json().forEach(element => {
         if(!element.role){  
           this.usersResult.push(element)
         }
+        this.summaryPercNum[(Math.ceil(this.usersResult.length-1)/5)]=0;
       });
     })
     this.projectsService.getProjects()
@@ -107,143 +112,309 @@ export class ChartJSComponent {
 
 
   getUtilPercent(){
-    if(this.View){
-      var factor=0;
-    switch (this.frecText) {
-      case "day":
-        factor=8*60;
-        break;
-      case "week":
-        factor=5*8*60;
-        break;
-      case "month":
-        factor=30*8*60;
-        break;
-      case "year":
-        factor=260*8*60;
-        break;
-    
-      default:
-        break;
-    }
-    this.tempChartData=[]
- 
-    this.usersResult.forEach(element => {
-        
-        var data =[]
 
+    switch (this.Type) {
+      case 1:
+      if(this.View){
+        var factor=0;
+      switch (this.frecText) {
+        case "day":
+          factor=8*60;
+          break;
+        case "week":
+          factor=5*8*60;
+          break;
+        case "month":
+          factor=30*8*60;
+          break;
+        case "year":
+          factor=260*8*60;
+          break;
       
-
-      
-      this.projectResult.forEach(element1 =>{
-        this.projectsService.adminGetHours(element1._id,element._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
-        .then((result)=>{
-          
-          result.json().log.forEach(function(element,index,array) {
-            if(!data[index]){
-              data[index]=0;
-            }            
-            data[index]+=element.time/factor*100;
-          });
-          this.lineChartLabels=[]       
-         for (let index = 0; index < result.json().diff; index++) {        
-          this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
-         }
-              
-        })   
-      });
-      
-        this.tempChartData.push({data: data, label: element.name}) 
-    
-      
-      
-    })
-    
-   
-    setTimeout(() => {
-      if (this.chart && this.chart.chart && this.chart.chart.config) {
-        
-/*           this.chart.chart.config.data.labels = this.labels; */
-        if(this.chart !== undefined){
-          this.lineChartData=this.tempChartData
-          this.chart.ngOnDestroy();
-          this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
-        }
+        default:
+          break;
       }
-  });
-    }else{
+      this.tempChartData=[]
+      this.barChartLabels=[]  
+      this.tempBarData=[]
+      var barData=[];
+      var dataTotalBar=[];
+      this.usersResult.forEach((element1,index1,array1) => {
+          
+          var data =[]
+          
   
-      var factor=0;
-    switch (this.frecText) {
-      case "day":
-        factor=8*60;
+  
+        
+        this.projectResult.forEach((element2,index2,array2) =>{
+          this.projectsService.adminGetHours(element2._id,element1._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+          .then((result)=>{
+            
+            result.json().log.forEach(function(element3,index3,array3) {
+              if(!data[index3]){
+                data[index3]=0;
+              }            
+              if(!barData[index1]){
+                barData[index1]=0;
+              }            
+              data[index3]+=element3.time/factor*100;
+             barData[index1]+=element3.time/factor*100;
+             if(( index2==(array2.length-1))&&( index3==(array3.length-1))){
+              barData[index1]/=(result.json().diff);
+              barData[index1]
+              dataTotalBar.push(barData[index1])
+            }
+            });
+  
+            
+            this.lineChartLabels=[]
+                 
+           for (let index = 0; index < result.json().diff; index++) {     
+  
+            this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+           }
+                
+          })   
+        });
+          this.barChartLabels.push(element1.name)
+          this.tempChartData.push({data: data, label: element1.name}) 
+          this.summaryPerc=barData;
+          this.tempBarData=[{data: barData, label: 'Porcentaje de utilización'}]
+          
+          if(index1==(array1.length-1)){
+            this.tempBarData=[{data: dataTotalBar, label: "Porcentaje de utilización"}]
+            /* this.tempBarData=[{data: [65.13213, 59.12, 80.12315, 81.1231245], label: 'Porcentaje de utilización'}] */
+          }
+  
+        
+      })
+      
+     
+      
+      }else{
+    
+        var factor=0;
+      switch (this.frecText) {
+        case "day":
+          factor=8*60;
+          break;
+        case "week":
+          factor=5*8*60;
+          break;
+        case "month":
+          factor=30*8*60;
+          break;
+        case "year":
+          factor=260*8*60;
+          break;
+      
+        default:
+          break;
+      }
+      this.tempChartData=[]
+      var data =[]
+      var dataTotal=[];
+      this.tempBarData=[]
+      var barData=[];
+      var dataTotalBar=[];
+      this.usersResult.forEach((element,index1,array1) => {      
+                    
+       
+        this.projectResult.forEach((element1,index2,array2) =>{
+         
+          this.projectsService.adminGetHours(element1._id,element._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+          .then((result)=>{
+            
+            result.json().log.forEach(function(element,index,array) {
+              if(!data[index]){
+                data[index]=0;
+              }            
+              if(!barData[index1]){
+                barData[index1]=0;
+              }        
+              
+              data[index]+=element.time/factor*100;
+              if(index1==(array1.length-1) && ( index2==(array2.length-1))){
+          
+                dataTotal.push(data[index]/4);
+              }
+  
+              barData[index1]+=element.time/factor*100;
+              if(( index2==(array2.length-1))&&( index==(array.length-1))){
+               barData[index1]/=(result.json().diff);
+               dataTotalBar.push(barData[index1])
+             }
+              
+            });
+            this.lineChartLabels=[]       
+           for (let index = 0; index < result.json().diff; index++) {        
+            this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+           }
+                
+          })   
+       
+        });
+        this.tempChartData=[{data: data, label: "Porcentaje de utilización"}]
+        this.barChartLabels.push(element.name)
+        this.tempChartData.push({data: data, label: element.name}) 
+        
+        this.tempBarData=[{data: barData, label: 'Porcentaje de utilización'}]
+        if(index1==(array1.length-1)){
+          this.tempBarData=[{data: dataTotalBar, label: "Porcentaje de utilización"}]
+          this.tempChartData=[{data: dataTotal, label: "Porcentaje de utilización"}]
+        }
+       
+        
+          
+        
+        
+      })
+      
+  /*     this.tempChartData=[{data: data, label: "Porcentaje de utilización"}] */
+    
+      }
         break;
-      case "week":
-        factor=5*8*60;
+      case 2:
+      if(this.View){
+ 
+      this.tempChartData=[]
+      this.barChartLabels=[]  
+      this.tempBarData=[]
+      var barData=[];
+      var dataTotalBar=[];
+      this.usersResult.forEach((element1,index1,array1) => {
+          
+          var data =[]
+          
+  
+  
+        
+        this.projectResult.forEach((element2,index2,array2) =>{
+          this.projectsService.adminGetHours(element2._id,element1._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+          .then((result)=>{
+            
+            result.json().log.forEach(function(element3,index3,array3) {
+              if(!data[index3]){
+                data[index3]=0;
+              }            
+              if(!barData[index1]){
+                barData[index1]=0;
+              }            
+              data[index3]+=element3.time*0.0166666666666667*20;
+             barData[index1]+=element3.time*0.0166666666666667*20;
+             if(( index2==(array2.length-1))&&( index3==(array3.length-1))){
+              barData[index1]/=(result.json().diff);
+              barData[index1]
+              dataTotalBar.push(barData[index1])
+            }
+            });
+  
+            
+            this.lineChartLabels=[]
+                 
+           for (let index = 0; index < result.json().diff; index++) {     
+  
+            this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+           }
+                
+          })   
+        });
+          this.barChartLabels.push(element1.name)
+          this.tempChartData.push({data: data, label: element1.name}) 
+          this.summaryPerc=barData;
+          this.tempBarData=[{data: barData, label: 'Porcentaje de utilización'}]
+          
+          if(index1==(array1.length-1)){
+            this.tempBarData=[{data: dataTotalBar, label: "Porcentaje de utilización"}]
+            /* this.tempBarData=[{data: [65.13213, 59.12, 80.12315, 81.1231245], label: 'Porcentaje de utilización'}] */
+          }
+  
+        
+      })
+      
+     
+      
+      }else{
+
+      this.tempChartData=[]
+      var data =[]
+      var dataTotal=[];
+      this.tempBarData=[]
+      var barData=[];
+      var dataTotalBar=[];
+      this.usersResult.forEach((element,index1,array1) => {      
+                    
+       
+        this.projectResult.forEach((element1,index2,array2) =>{
+         
+          this.projectsService.adminGetHours(element1._id,element._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+          .then((result)=>{
+            
+            result.json().log.forEach(function(element,index,array) {
+              if(!data[index]){
+                data[index]=0;
+              }            
+              if(!barData[index1]){
+                barData[index1]=0;
+              }        
+              
+              data[index]+=element.time*0.0166666666666667*20;
+              if(index1==(array1.length-1) && ( index2==(array2.length-1))){
+          
+                dataTotal.push(data[index]/4);
+              }
+  
+              barData[index1]+=element.time*0.0166666666666667*20;
+              if(( index2==(array2.length-1))&&( index==(array.length-1))){
+               barData[index1]/=(result.json().diff);
+               dataTotalBar.push(barData[index1])
+             }
+              
+            });
+            this.lineChartLabels=[]       
+           for (let index = 0; index < result.json().diff; index++) {        
+            this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+           }
+                
+          })   
+       
+        });
+        this.tempChartData=[{data: data, label: "Porcentaje de utilización"}]
+        this.barChartLabels.push(element.name)
+        this.tempChartData.push({data: data, label: element.name}) 
+        
+        this.tempBarData=[{data: barData, label: 'Porcentaje de utilización'}]
+        if(index1==(array1.length-1)){
+          this.tempBarData=[{data: dataTotalBar, label: "Porcentaje de utilización"}]
+          this.tempChartData=[{data: dataTotal, label: "Porcentaje de utilización"}]
+        }
+       
+        
+          
+        
+        
+      })
+      
+  /*     this.tempChartData=[{data: data, label: "Porcentaje de utilización"}] */
+    
+      }
         break;
-      case "month":
-        factor=30*8*60;
-        break;
-      case "year":
-        factor=260*8*60;
+      case 3:
+        console.log(3)
         break;
     
       default:
         break;
     }
-    this.tempChartData=[]
-    var data =[]
-    this.usersResult.forEach((element,index1,array1) => {
-        
-        
 
-      
-
-     
-      this.projectResult.forEach(element1 =>{
-        this.projectsService.adminGetHours(element1._id,element._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
-        .then((result)=>{
-          
-          result.json().log.forEach(function(element,index,array) {
-            if(!data[index]){
-              data[index]=0;
-            }            
-            data[index]+=element.time/factor*100;
-          });
-          this.lineChartLabels=[]       
-         for (let index = 0; index < result.json().diff; index++) {        
-          this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
-         }
-              
-        })   
-      });
-      this.tempChartData.push({data: data, label: "Porcentaje de utilización"})
-        if(index1==(array1.length-1)){
-          
-        }
-        
-        
-      
-      
-    })
-    
-   
-    setTimeout(() => {
-      if (this.chart && this.chart.chart && this.chart.chart.config) {
-        
-/*           this.chart.chart.config.data.labels = this.labels; */
-        if(this.chart !== undefined){
-          this.lineChartData=this.tempChartData
-          this.chart.ngOnDestroy();
-          this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
-        }
-      }
-  });
-    }
-    
+ 
+    this.update()
   }
 
   public tempChartData: Array<any> = [
+    
+  ]
+  public tempBarData: Array<any> = [
     
   ]
   public lineChartData: Array<any> = [
@@ -255,6 +426,7 @@ export class ChartJSComponent {
   public week = moment().week()
   public lineChartLabels: Array<any> = ['Week '+(this.week-3), 'Week '+(this.week-2), 'Week '+(this.week-1), 'Week '+(this.week), 'Week '+(this.week+1), 'Week '+(this.week+2), 'Week '+(this.week+3)];
   public lineChartOptions: any = {
+    onAnimationComplete: this.update(),
     responsive: true
   };
   public lineChartColours: Array<any> = [
@@ -291,16 +463,15 @@ export class ChartJSComponent {
     scaleShowVerticalLines: false,
     responsive: true
   };
-  public barChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels: string[] = ['2006', '2007', '2008', '2009'];
   public barChartType = 'bar';
   public barChartLegend = true;
 
   public barChartData: any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+    {data: [65, 59, 80, 81], label: 'Porcentaje de utilización'}
   ];
 
-  // Doughnut
+ /*  // Doughnut
   public doughnutChartLabels: string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
   public doughnutChartData: number[] = [350, 450, 100];
   public doughnutChartType = 'doughnut';
@@ -324,7 +495,7 @@ export class ChartJSComponent {
   public polarAreaChartData: number[] = [300, 500, 100, 40, 120];
   public polarAreaLegend = true;
 
-  public polarAreaChartType = 'polarArea';
+  public polarAreaChartType = 'polarArea'; */
 
   // events
   public chartClicked(e: any): void {
@@ -335,10 +506,11 @@ export class ChartJSComponent {
     console.log(e);
   }
 
- /*  update(){
-    
+  update(){
+    this.toggleTable=false;
   
     this.lineChartData=this.tempChartData
+    this.barChartData=this.tempBarData
     setTimeout(() => {
       if (this.chart && this.chart.chart && this.chart.chart.config) {
 
@@ -349,6 +521,14 @@ export class ChartJSComponent {
       }
   });
   }
- */
+
+  ToggleGraph(){
+    this.toggleTable=!this.toggleTable;
+  }
+
+  changeTab(tab){ 
+    this.tabNumber=tab;
+  }
+
 
 }

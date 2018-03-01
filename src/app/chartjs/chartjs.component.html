@@ -13,7 +13,7 @@
                     [(ngModel)]="model" required></my-date-range-picker>
             </form>
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-sm-2">
               <label for="">Frecuencia</label>
               <ngx-select 
               [allowClear]="true"
@@ -23,7 +23,7 @@
               placeholder="Error: contacte al programador">
               </ngx-select>
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-sm-2">
               <label for="">Vista</label>
               <ngx-select 
               [allowClear]="true"
@@ -43,15 +43,20 @@
               placeholder="Seleccione una estadistica a mostrar">
               </ngx-select>
             </div>
+            <div class="form-group col-sm-2 m-auto">
+                <button  class="btn btn-sm btn-primary" (click)="ToggleGraph()"><i class="fa fa-dot-circle-o"></i>Ver gráfica</button>
+            </div>
+            
           </div>
       </div>
     </div>
-  <div class="card-columns cols-2" [ngSwitch]="Type">
-    <div class="card" *ngSwitchCase="1">
-      <div class="card-header">
-        Porcentaje de utilización
+<div [ngSwitch]="Type">
+  <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="2">
+    <div class="card" >
+      <div class="card-header">        
+        Producción por desarrollador
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="lineChartData[0].data.length>0">
         <div class="chart">
           <canvas baseChart class="chart"
           [datasets]="lineChartData"
@@ -64,18 +69,14 @@
           (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
-      <button type="submit" class="btn btn-sm btn-primary"  (click)="getUtilPercent()"><i class="fa fa-dot-circle-o"></i> Porcentaje de utilización</button>
-    </div>
-    <!-- <div class="card">
+    
+  </div>
+    <div class="card" *ngIf="toggleTable">
+        
       <div class="card-header">
         Bar Chart
-        <div class="card-actions">
-          <a href="http://www.chartjs.org">
-            <small class="text-muted">docs</small>
-          </a>
-        </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" >
         <div class="chart-wrapper">
           <canvas baseChart class="chart"
           [datasets]="barChartData"
@@ -88,6 +89,100 @@
         </div>
       </div>
     </div>
+    <div class="card" *ngIf="!toggleTable">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Resumen
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Porcentaje de producción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of elementsTable,let i = index">
+                <td>{{usersResult[item+5*tabNumber] && usersResult[item+5*tabNumber].name || "" }}</td>
+                <td>{{usersResult[item+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || ""}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li *ngFor="let num of summaryPercNum, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="1">
+    <div class="card" >
+      <div class="card-header">
+        Porcentaje de utilización
+      </div>
+      <div class="card-body" *ngIf="lineChartData[0].data.length>0">
+        <div class="chart">
+          <canvas baseChart class="chart"
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColours"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    
+  </div>
+    <div class="card" *ngIf="toggleTable">
+        
+      <div class="card-header">
+        Bar Chart
+      </div>
+      <div class="card-body" >
+        <div class="chart-wrapper">
+          <canvas baseChart class="chart"
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="!toggleTable">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Resumen
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Porcentaje de producción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of elementsTable,let i = index">
+                <td>{{usersResult[item+5*tabNumber] && usersResult[item+5*tabNumber].name || "" }}</td>
+                <td>{{usersResult[item+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || ""}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li *ngFor="let num of summaryPercNum, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </div>
+      </div>
+  </div>
+</div>
+  <!-- 
     <div class="card">
       <div class="card-header">
         Doughnut Chart
@@ -169,5 +264,5 @@
         </div>
       </div>
     </div> -->
-  </div>
-</div>
+ 
+
