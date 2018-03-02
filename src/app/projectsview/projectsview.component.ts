@@ -10,6 +10,8 @@ export class ProjectsviewComponent implements OnInit {
   resultProjects:Object=[];
   name:string;
   description:string;
+  rate:number;
+  rateUpdate:number;
   nameUpdate:string;
   idUpdate:string;
   descriptionUpdate:string;
@@ -26,6 +28,7 @@ export class ProjectsviewComponent implements OnInit {
   getProject(){
     this.projectsService.getProjects()
     .then((result) => {
+      console.log(result.json())
       this.resultProjects = result.json();
     })  
   }
@@ -37,6 +40,7 @@ export class ProjectsviewComponent implements OnInit {
       this.idUpdate= result.json()._id;
       this.nameUpdate=result.json().name;      
       this.descriptionUpdate=result.json().description;
+      this.rateUpdate=result.json().rate;
 
     }) 
   }
@@ -54,19 +58,27 @@ export class ProjectsviewComponent implements OnInit {
   addProject(event){
 
 
-    if((this.name!=null || this.name!="") && (this.description!=null || this.description!="") )
+    if((this.name!=null || this.name!="") && (this.description!=null || this.description!="") && (this.rate!=null))
     {
-
-    this.projectsService.createProject(this.name,this.description)
+      
+      if(isNaN(this.rate)){
+        alert("Ingrese un rate válido");
+      }
+      else if (this.rate<0){
+        alert("Ingrese un rate válido")
+      }else{
+      
+        this.projectsService.createProject(this.name,this.description,this.rate)
     .then(()=>this.getProject());
     alert("Proyecto Agregado");
     this.closeBtn.nativeElement.click();
-
-    }else{
+        
+      }
+    }
+    else{
       alert("Complete todos los campos");
       
-    }
-    
+    }    
     
   }
   saveChanges(){
@@ -77,14 +89,23 @@ export class ProjectsviewComponent implements OnInit {
     }else if(this.descriptionUpdate==null || this.descriptionUpdate==""){
       alert("Ingrese una descripción válida");
 
-    }else{
+    }else if(this.rateUpdate==null){
+      alert("Escriba un rate")
+      
+    }else if(isNaN(this.rateUpdate)){
+      alert("Ingrese un rate válido")
+    }else if(this.rateUpdate<0){
+      alert("Ingrese un rate válido")
+      }else{
+        this.answer= confirm("Estás seguro que quieres actualizar este proyecto?")
+        if(this.answer){
 
-
-    this.projectsService.editProject(this.idUpdate,this.nameUpdate,this.descriptionUpdate)
+    this.projectsService.editProject(this.idUpdate,this.nameUpdate,this.descriptionUpdate,this.rateUpdate)
     .then(()=>this.getProject());
     // console.log(this.idupdate,this.nameupdate,this.usernameupdate,this.emailupdate,this.roleupdate)
     document.getElementById('updatecard').style.display = "none";
       alert("Datos actualizados")
+        }
     }
 
 
@@ -94,11 +115,13 @@ export class ProjectsviewComponent implements OnInit {
 
     this.nameUpdate="";
     this.descriptionUpdate="";
+    this.rateUpdate=null;
   }
 
   clearVals(){
     this.name="";
     this.description="";
+    this.rate=null;
   }
 
 }

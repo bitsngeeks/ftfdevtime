@@ -32,6 +32,14 @@
 // Custom styles
 @import "custom";
 
+@media only screen and (max-width: 500px) {
+    .test {
+        width: auto;
+    overflow: auto;
+    overflow-x: auto;
+    }
+ }
+
 .center {
     text-align:center !important;
 }
@@ -42,4 +50,12 @@
 
 .paddingtablesmin{
     padding-top: 5px ;
+}
+
+.paddinguser{
+    padding-right: 12px;
+}
+
+.nomarginbottom{
+    margin-bottom: 0px !important;
 }

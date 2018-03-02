@@ -34,6 +34,8 @@ export class ClientsviewService {
         "projects": array
       }).toPromise();
   }
+  
+
   removeClient(id:String): Promise<any>{
     return this.http.delete(this.url+'/'+id)
       

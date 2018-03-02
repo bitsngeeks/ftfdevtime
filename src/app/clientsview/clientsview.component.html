@@ -9,7 +9,7 @@
               </div>
               <div class="card-body">
                 
-                <table class="table" >
+                <table class="table nomarginbottom" >
                   <thead>
                     <tr>
                       <th>Nombre</th>              
@@ -49,7 +49,7 @@
         </div>
         <div class="card-body">
           
-           <table class="table" >
+           <table class="table nomarginbottom" >
             <thead>
               <tr>
                 <th>Nombre</th>
@@ -102,18 +102,21 @@
                   </div>
                   <div class="card-body">
                     
-                    <table class="table" >
+                    <table class="table nomarginbottom" >
                       <thead>
                         <tr>
                           <th>Nombre</th>              
-                          <th>Descripcion</th>          
+                          <th>Descripcion</th>    
+                          <th>Rate</th>                
                           <th>Opciones</th>
+                          
                         </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let project of this.resultProjects">
                           <td>{{project.name}}</td>
                           <td>{{project.description}}</td>
+                          <td class="center">${{project.rate.toFixed(1)}}</td>
                           <td class="center">                          
                           <span class="text-danger h4"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeProjectFromClient(project._id)></i> </span>        
                           </td>
@@ -123,7 +126,7 @@
             
                     <div class="modal-footer">
             
-                <button type="button" class="btn btn-sm btn-primary" (click)="showAddProyect()">
+                <button type="button" class="btn btn-sm btn-primary" (click)="showAddProyect()" (click)="showAllProjects()">
                     Agregar Proyecto
                   </button>
                   <button type="button" class="btn btn-sm btn-secondary" (click)="cancelProjects()">
@@ -153,6 +156,9 @@
                       <button type="button" class="btn btn-sm btn-primary" (click)="saveProjectAdded()">
                           Guardar cambios
                         </button>
+                        <button type="button" class="btn btn-sm btn-secondary" (click)="cancelAddProject()">
+                            Cerrar
+                          </button>
                       </div>
                   </div>
                 </div>
@@ -187,8 +193,8 @@
           </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" (click)="infoModal.hide()" #closeBtn>Cerrar</button>
-            <button type="button" class="btn btn-sm btn-primary" (click)="addClient($event)" >Agregar cliente</button>
+              <button type="button" class="btn btn-sm btn-primary" (click)="addClient($event)" >Agregar cliente</button>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="infoModal.hide()" #closeBtn>Cerrar</button>            
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

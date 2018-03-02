@@ -25,16 +25,19 @@ export class ProjectsService {
    getOneProject(id): Promise<any>{
     return this.http.get(this.url+'/'+id).toPromise();        
   }
-   createProject(name,description): Promise<any>{
+   createProject(name,description,rate): Promise<any>{
     return this.http.post(this.url,{
       "name": name,
-      "description": description
+      "description": description,
+      "rate": rate,
+      "assigned" : false
     }).toPromise();       
   }
-   editProject(id,name,description): Promise<any>{
+   editProject(id,name,description,rate): Promise<any>{
     return this.http.put(this.url+'/'+id,{
       "name": name,
-      "description": description
+      "description": description,
+      "rate" : rate
     }).toPromise();       
   }
    deleteProject(id): Promise<any>{
@@ -68,6 +71,13 @@ export class ProjectsService {
       "period": period,
       "user_id": userId
     },{headers: this.headers}).toPromise();        
+  }
+
+  changeAssigned(idP:string, boolean){
+    return this.http.put(this.url+'/'+idP,
+      {
+        "assigned": boolean
+      }).toPromise();
   }
 
 

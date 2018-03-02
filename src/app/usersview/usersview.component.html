@@ -3,12 +3,12 @@
   <div class="row">
     <div class="col-lg-6 paddingtables">
     <!-- Infousers card -->
-      <div class="card">
+      <div class="card test">
             <div class="card-header">           
       <i class="fa fa-align-justify"></i> Usuarios
     </div>
     <div class="card-body">
-       <table class="table" >
+       <table class="table nomarginbottom" >
         <thead>
           <tr>
             <th>Nombre</th>
@@ -49,13 +49,14 @@
       </div>
       <div class="card-body">
         <tr >
-         <table class="table" >
+         <table class="table nomarginbottom" >
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Usuario</th>
               <th>E-mail</th>
-              <th>Tipo de Usuario</th>              
+              <th>Tipo de Usuario</th>
+              <th></th>              
             </tr>
           </thead>
           <tbody>
@@ -152,8 +153,8 @@
        
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" (click)="infoModal.hide()" #closeBtn>Cerrar</button>
-          <button type="button" class="btn btn-sm btn-primary" (click)="addUser($event)" >Agregar Usuario</button>
+            <button type="button" class="btn btn-sm btn-primary" (click)="addUser($event)" >Agregar Usuario</button>
+          <button type="button" class="btn btn-sm btn-secondary" (click)="infoModal.hide()" #closeBtn>Cerrar</button>          
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

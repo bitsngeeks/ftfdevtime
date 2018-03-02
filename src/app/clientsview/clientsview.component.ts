@@ -32,6 +32,7 @@ export class ClientsviewComponent implements OnInit {
   pidupdate:string;  
   pnameupdate:string;
   pdescriptionupdate:string;
+  prate:number;
   Projects=[];
   resultProject;
   newproject;
@@ -121,30 +122,33 @@ export class ClientsviewComponent implements OnInit {
       alert("Ingrese un Email válido");
     }else
     {
+      this.answer= confirm("Estás seguro que quieres actualizar este usuario?")
+      if(this.answer){
     this.clientsviewService.saveChanges(this.idupdate,this.nameupdate,this.emailupdate)
     .then(()=>this.getClients());
     // console.log(this.idupdate,this.nameupdate,this.usernameupdate,this.emailupdate,this.roleupdate)
     document.getElementById('updatecard').style.display = "none";
     alert("Cliente actualizado");
+      }
     }
   }
 
-  psaveChanges(){
+  // psaveChanges(){
 
-    if(this.pnameupdate==null || this.pnameupdate==""){
-      alert("Ingrese un Nombre válido");
+  //   if(this.pnameupdate==null || this.pnameupdate==""){
+  //     alert("Ingrese un Nombre válido");
     
-    }else if(this.pdescriptionupdate==null || this.pdescriptionupdate==""){
-      alert("Ingrese una Descripcion válida");
-    }else{
+  //   }else if(this.pdescriptionupdate==null || this.pdescriptionupdate==""){
+  //     alert("Ingrese una Descripcion válida");
+  //   }else{
 
-    this.projectsService.editProject(this.pidupdate,this.pnameupdate,this.pdescriptionupdate)
-    .then(()=>this.getProjectsByClientId(this.clientID));
-    document.getElementById('updatecard2').style.display = "none";
-    alert("Proyecto actualizado");
+  //   this.projectsService.editProject(this.pidupdate,this.pnameupdate,this.pdescriptionupdate,this.prate)
+  //   .then(()=>this.getProjectsByClientId(this.clientID));
+  //   document.getElementById('updatecard2').style.display = "none";
+  //   alert("Proyecto actualizado");
 
-    }
-  }
+  //   }
+  // }
   getProjectsByClientId(id){
 
     this.clientID=id;
@@ -188,8 +192,14 @@ export class ClientsviewComponent implements OnInit {
        this.clientsviewService.addProjectToClient(this.clientID,this.resultProjectsids)
        .then(()=>
           { 
-            alert("Proyecto eliminado")
+            this.projectsService.changeAssigned(id,false)
+            .then(()=>
+                   {
+                    this.showAllProjects();
+                   } );
+            alert("Proyecto eliminado");
             this.getProjectsByClientId(this.clientID);
+            
           }
       )    
     })
@@ -207,20 +217,10 @@ export class ClientsviewComponent implements OnInit {
     this.resultnewProjects=[];
     this.resulttocomparewith=[];
     this.clientsviewService.getClientById(this.clientID)
-      .then((result) => {
-
-     
-
+      .then((result) => {    
         result.json().projects.forEach(element => {
           this.resultnewProjects.push(element._id);
          }); 
-        //  console.log(this.resultnewProjects);
-         
-        //  this.resultnewProjects.push(this.newproject)
-         
-        //  console.log(this.resultnewProjects);
-        // console.log(this.newproject);
-        // console.log(this.resultnewProjects);
         for(let i = 0; i<this.resultnewProjects.length; i++){
           
           if(this.newproject==this.resultnewProjects[i]){
@@ -241,7 +241,9 @@ export class ClientsviewComponent implements OnInit {
               this.clientsviewService.addProjectToClient(this.clientID,this.resultnewProjects)
               .then(()=>
              {
-              alert("Proyecto agregado")
+               this.projectsService.changeAssigned(this.newproject,true);
+              alert("Proyecto agregado");
+              this.newproject="";
               document.getElementById('addproject').style.display = "none";
               this.getProjectsByClientId(this.clientID);
               })
@@ -262,27 +264,41 @@ export class ClientsviewComponent implements OnInit {
       
   }
 
-  ngOnInit() {
-    
-      this.getClients();
+  cancelAddProject(){
+    this.Projects=[];
+    document.getElementById('addproject').style.display = "none";
+  }
 
-      this.projectsService.getProjects()
+  showAllProjects(){
+    this.projectsService.getProjects()
    .then((result) => {
+     this.Projects=[];
      result.json().forEach((project:
        {
            _id:string,
            name:string,
            description:string,
+           rate:number,
+           assigned:boolean
        }) => {
+         if(!project.assigned){
        this.Projects.push({
          id: project._id,
          text: project.name +" - "+ project.description
        });
+      }
      });
      console.log(result.json())
      
      this.resultProject=result.json();
    })
+  }
+
+  ngOnInit() {
+    
+      this.getClients();
+
+      
       
   
   }
