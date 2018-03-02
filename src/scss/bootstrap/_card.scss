@@ -131,7 +131,7 @@
 
 // Card deck
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .card-deck {
     display: flex;
     flex-flow: row wrap;
@@ -153,7 +153,7 @@
 // Card groups
 //
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .card-group {
     display: flex;
     flex-flow: row wrap;
@@ -212,7 +212,7 @@
     margin-bottom: $card-columns-margin;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     column-count: $card-columns-count;
     column-gap: $card-columns-gap;
 

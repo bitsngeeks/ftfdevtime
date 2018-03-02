@@ -172,7 +172,7 @@
   border-bottom: $card-border-width solid $border-color;
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .card-columns {
 
     &.cols-2 {

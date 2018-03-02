@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-  <div class="card">
+  <div class="card paddingtables">
       <div class="card-header">
         Parametros
       </div>
@@ -79,6 +79,7 @@
       <div class="card-body" >
         <div class="chart-wrapper">
           <canvas baseChart class="chart"
+          [colors]="barChartColours"
           [datasets]="barChartData"
           [labels]="barChartLabels"
           [options]="barChartOptions"
@@ -98,13 +99,13 @@
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Porcentaje de producción</th>
+                <th>Porcentaje de utilización</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of elementsTable,let i = index">
-                <td>{{usersResult[item+5*tabNumber] && usersResult[item+5*tabNumber].name || "" }}</td>
-                <td>{{usersResult[item+5*tabNumber] && (summaryPerc[i+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
+                <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && usersResult[item+6*tabNumber].name || "" }}</td>
+                <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && (summaryPerc[i+6*tabNumber] && summaryPerc[i+6*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
               </tr>
             </tbody>
           </table>
@@ -145,6 +146,7 @@
         <div class="card-body" >
           <div class="chart-wrapper">
             <canvas baseChart class="chart"
+            [colors]="barChartColours"
             [datasets]="barChartData"
             [labels]="barChartLabels"
             [options]="barChartOptions"
@@ -164,13 +166,13 @@
               <thead>
                 <tr>
                   <th>Nombre</th>
-                  <th>Porcentaje de producción</th>
+                  <th>Producción por desarrolador</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of elementsTable,let i = index">
-                  <td>{{usersResult[item+5*tabNumber] && usersResult[item+5*tabNumber].name || "" }}</td>
-                  <td>{{usersResult[item+5*tabNumber] && (summaryPerc[i+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
+                  <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && usersResult[item+6*tabNumber].name || "" }}</td>
+                  <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && (summaryPerc[i+6*tabNumber] && summaryPerc[i+6*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
                 </tr>
               </tbody>
             </table>
@@ -193,7 +195,7 @@
           [datasets]="lineChartData"
           [labels]="lineChartLabels"
           [options]="lineChartOptions"
-          [colors]="lineChartColours"
+          [colors]="lineChartColoursClient"
           [legend]="lineChartLegend"
           [chartType]="lineChartType"
           (chartHover)="chartHovered($event)"
@@ -210,6 +212,7 @@
       <div class="card-body" >
         <div class="chart-wrapper">
           <canvas baseChart class="chart"
+          [colors]="barChartColours"
           [datasets]="barChartData"
           [labels]="barChartLabels"
           [options]="barChartOptions"
@@ -234,8 +237,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of elementsTable,let i = index">
-                <td>{{clientResult[item+5*tabNumber] && clientResult[item+5*tabNumber].name || "" }}</td>
-                <td>{{clientResult[item+5*tabNumber] && (summaryPercClient[i+5*tabNumber] && summaryPercClient[i+5*tabNumber].toFixed(2) || "0"  ) || ""}}</td>
+                <td *ngIf="clientResult[item+6*tabNumber]">{{clientResult[item+6*tabNumber] && clientResult[item+6*tabNumber].name || "" }}</td>
+                <td *ngIf="clientResult[item+6*tabNumber]">{{clientResult[item+6*tabNumber] && (summaryPercClient[i+6*tabNumber] && summaryPercClient[i+6*tabNumber].toFixed(2) || "0"  ) || ""}}</td>
               </tr>
             </tbody>
           </table>

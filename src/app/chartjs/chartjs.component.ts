@@ -12,8 +12,8 @@ var moment = require('moment');
 })
 export class ChartJSComponent {
   public date = new Date();
-  public date_start = new Date(moment().add(-1,'day').toISOString());
-  public date_end = new Date(moment().add(1,'day').toISOString());
+  public date_start = new Date(moment().add(-1,'week').toISOString());
+  public date_end = new Date(moment().add(1,'week').toISOString());
   public Frec=[{
     id:'day',
     text:"Diario"
@@ -69,8 +69,8 @@ export class ChartJSComponent {
     dateFormat: 'dd.mm.yyyy',
 };
 
-  private model: any = {beginDate: {year: 2018, month: 2, day: 27},
-                        endDate: {year: 2018, month: 2, day: 28}};
+  private model: any = {beginDate: {year: this.date_start.getFullYear(), month: this.date_start.getMonth()+1, day: this.date_start.getDate()},
+                        endDate: {year: this.date_end.getFullYear(), month: this.date_end.getMonth()+1, day: this.date_end.getDate()}};
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public usersResult=[];
   public projectResult=[];
@@ -88,6 +88,24 @@ export class ChartJSComponent {
           this.usersResult.push(element)
         }
         this.summaryPercNum[(Math.ceil(this.usersResult.length-1)/6)]=0;
+
+        this.lineChartColours=[];
+        result.json().forEach(element => {
+          var r = this.getRandomInt(-1,256)    
+          var g = this.getRandomInt(-1,256)    
+          var b = this.getRandomInt(-1,256)    
+          this.lineChartColours.push(
+            { 
+              backgroundColor: 'rgba('+r+','+g+','+b+',0.2)',
+              borderColor:  'rgba('+r+','+g+','+b+',1)',
+              pointBackgroundColor:  'rgba('+r+','+g+','+b+',1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor:  'rgba('+r+','+g+','+b+',0.8)',
+            }
+          )
+        });
+
       });
       
     })
@@ -96,11 +114,33 @@ export class ChartJSComponent {
       this.projectResult=result.json();
     })
     this.clientsviewService.getClients()
+
     .then((result) => {
+     
+      this.lineChartColoursClient=[];
+      result.json().forEach(element => {
+        var r = this.getRandomInt(-1,256)    
+        var g = this.getRandomInt(-1,256)    
+        var b = this.getRandomInt(-1,256)    
+        this.lineChartColoursClient.push(
+          { 
+            backgroundColor: 'rgba('+r+','+g+','+b+',0.2)',
+            borderColor:  'rgba('+r+','+g+','+b+',1)',
+            pointBackgroundColor:  'rgba('+r+','+g+','+b+',1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor:  'rgba('+r+','+g+','+b+',0.8)',
+          }
+        )
+      });
+
       console.log(result.json())
       this.clientResult=result.json();
       this.summaryPercNumClient[(Math.ceil(this.clientResult.length-1)/6)]=0;
     })
+
+  
+    
   }
   onDateRangeChanged(event: IMyDateRangeModel) {
     // event properties are: event.beginDate, event.endDate, event.formatted,
@@ -150,6 +190,7 @@ export class ChartJSComponent {
       this.tempBarData=[]
       var barData=[];
       var dataTotalBar=[];
+      
       this.usersResult.forEach((element1,index1,array1) => {
           
           var data =[]
@@ -180,13 +221,26 @@ export class ChartJSComponent {
             
             this.lineChartLabels=[]
                  
-           for (let index = 0; index < result.json().diff; index++) {     
-  
+           for (let index = 0; index < result.json().diff; index++) { 
+
             this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
            }
                 
           })   
         });
+          var r = this.getRandomInt(-1,256)    
+          var g = this.getRandomInt(-1,256)    
+          var b = this.getRandomInt(-1,256)    
+          this.lineChartColours.push(
+            { 
+              backgroundColor: 'rgba('+r+','+g+','+b+',0.2)',
+              borderColor:  'rgba('+r+','+g+','+b+',1)',
+              pointBackgroundColor:  'rgba('+r+','+g+','+b+',1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor:  'rgba('+r+','+g+','+b+',0.8)',
+            }
+          )
           this.barChartLabels.push(element1.name)
           this.tempChartData.push({data: data, label: element1.name}) 
           this.summaryPerc=barData;
@@ -311,8 +365,8 @@ export class ChartJSComponent {
               if(!barData[index1]){
                 barData[index1]=0;
               }            
-              data[index3]+=element3.time*0.0166666666666667*20;
-             barData[index1]+=element3.time*0.0166666666666667*20;
+              data[index3]+=element3.time*0.0166666666666667*element2.rate;
+             barData[index1]+=element3.time*0.0166666666666667*element2.rate;
              if(( index2==(array2.length-1))&&( index3==(array3.length-1))){
               barData[index1]/=(result.json().diff);
               barData[index1]
@@ -369,13 +423,13 @@ export class ChartJSComponent {
                 barData[index1]=0;
               }        
               
-              data[index]+=element.time*0.0166666666666667*20;
+              data[index]+=element.time*0.0166666666666667*element1.rate;
               if(index1==(array1.length-1) && ( index2==(array2.length-1))){
           
                 dataTotal.push(data[index]/4);
               }
   
-              barData[index1]+=element.time*0.0166666666666667*20;
+              barData[index1]+=element.time*0.0166666666666667*element1.rate;
               if(( index2==(array2.length-1))&&( index==(array.length-1))){
                barData[index1]/=(result.json().diff);
                dataTotalBar.push(barData[index1])
@@ -436,8 +490,8 @@ export class ChartJSComponent {
                 if(!barData[index1]){
                   barData[index1]=0;
                 }            
-                data[index3]+=element3.time*0.0166666666666667*20;
-               barData[index1]+=element3.time*0.0166666666666667*20;
+                data[index3]+=element3.time*0.0166666666666667*element2.rate;
+               barData[index1]+=element3.time*0.0166666666666667*element2.rate;
                if(( index2==(array2.length-1))&&( index3==(array3.length-1))){
                 barData[index1]/=(result.json().diff);
                 barData[index1]
@@ -494,13 +548,13 @@ export class ChartJSComponent {
                   barData[index1]=0;
                 }        
                 
-                data[index]+=element.time*0.0166666666666667*20;
+                data[index]+=element.time*0.0166666666666667*element1.rate;
                 if(index1==(array1.length-1) && ( index2==(array2.length-1))){
             
                   dataTotal.push(data[index]/4);
                 }
     
-                barData[index1]+=element.time*0.0166666666666667*20;
+                barData[index1]+=element.time*0.0166666666666667*element1.rate;
                 if(( index2==(array2.length-1))&&( index==(array.length-1))){
                  barData[index1]/=(result.json().diff);
                  dataTotalBar.push(barData[index1])
@@ -571,15 +625,9 @@ export class ChartJSComponent {
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    },
-    { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-    },
+    }
+  ];
+  public lineChartColoursClient: Array<any> = [
     { // grey
       backgroundColor: 'rgba(148,159,177,0.2)',
       borderColor: 'rgba(148,159,177,1)',
@@ -603,6 +651,17 @@ export class ChartJSComponent {
 
   public barChartData: any[] = [
     {data: [65, 59, 80, 81], label: 'Porcentaje de utilización'}
+  ];
+
+  public barChartColours: Array<any> = [
+    { // FTF color
+      backgroundColor: 'rgba(32,168,216,0.5)',
+      borderColor: 'rgba(32,168,216,1)',
+      pointBackgroundColor: 'rgba(32,168,216,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(32,168,216,0.8)'
+    },
   ];
 
  /*  // Doughnut
@@ -654,6 +713,10 @@ export class ChartJSComponent {
         }
       }
   });
+  }
+
+  getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   ToggleGraph(){
