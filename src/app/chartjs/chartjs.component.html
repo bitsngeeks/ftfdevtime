@@ -44,78 +44,13 @@
               </ngx-select>
             </div>
             <div class="form-group col-sm-2 m-auto">
-                <button  class="btn btn-sm btn-primary" (click)="ToggleGraph()"><i class="fa fa-dot-circle-o"></i>Ver gráfica</button>
+                <button  class="btn btn-sm btn-primary" (click)="ToggleGraph()"><i class="fa fa-dot-circle-o"></i>Ver {{!toggleTable && "gráfica" || "tabla"}}</button>
             </div>
             
           </div>
       </div>
     </div>
 <div [ngSwitch]="Type">
-  <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="2">
-    <div class="card" >
-      <div class="card-header">        
-        Producción por desarrollador
-      </div>
-      <div class="card-body" *ngIf="lineChartData[0].data.length>0">
-        <div class="chart">
-          <canvas baseChart class="chart"
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [colors]="lineChartColours"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-      </div>
-    
-  </div>
-    <div class="card" *ngIf="toggleTable">
-        
-      <div class="card-header">
-        Bar Chart
-      </div>
-      <div class="card-body" >
-        <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="card" *ngIf="!toggleTable">
-        <div class="card-header">
-          <i class="fa fa-align-justify"></i> Resumen
-        </div>
-        <div class="card-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Porcentaje de producción</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of elementsTable,let i = index">
-                <td>{{usersResult[item+5*tabNumber] && usersResult[item+5*tabNumber].name || "" }}</td>
-                <td>{{usersResult[item+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || ""}}</td>
-              </tr>
-            </tbody>
-          </table>
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-            <li *ngFor="let num of summaryPercNum, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </div>
-      </div>
-  </div>
   <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="1">
     <div class="card" >
       <div class="card-header">
@@ -169,14 +104,145 @@
             <tbody>
               <tr *ngFor="let item of elementsTable,let i = index">
                 <td>{{usersResult[item+5*tabNumber] && usersResult[item+5*tabNumber].name || "" }}</td>
-                <td>{{usersResult[item+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || ""}}</td>
+                <td>{{usersResult[item+5*tabNumber] && (summaryPerc[i+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
               </tr>
             </tbody>
           </table>
           <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li class="page-item" (click)="prevTab()"><a class="page-link" >Prev</a></li>
             <li *ngFor="let num of summaryPercNum, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item" (click)="nextTab()"><a class="page-link" >Next</a></li>
+
+          </ul>
+        </div>
+      </div>
+  </div>
+  <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="2">
+      <div class="card" >
+        <div class="card-header">        
+          Producción por desarrollador
+        </div>
+        <div class="card-body" *ngIf="lineChartData[0].data.length>0">
+          <div class="chart">
+            <canvas baseChart class="chart"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColours"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      
+    </div>
+      <div class="card" *ngIf="toggleTable">
+          
+        <div class="card-header">
+          Bar Chart
+        </div>
+        <div class="card-body" >
+          <div class="chart-wrapper">
+            <canvas baseChart class="chart"
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="card" *ngIf="!toggleTable">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Resumen
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Porcentaje de producción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of elementsTable,let i = index">
+                  <td>{{usersResult[item+5*tabNumber] && usersResult[item+5*tabNumber].name || "" }}</td>
+                  <td>{{usersResult[item+5*tabNumber] && (summaryPerc[i+5*tabNumber] && summaryPerc[i+5*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <ul class="pagination">
+              <li class="page-item" (click)="prevTab()"><a class="page-link" >Prev</a></li>
+              <li *ngFor="let num of summaryPercNum, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
+              <li class="page-item" (click)="nextTab()"><a class="page-link" >Next</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+      <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="3">
+    <div class="card" >
+      <div class="card-header">        
+        Producción por Cliente
+      </div>
+      <div class="card-body" *ngIf="lineChartData[0].data.length>0">
+        <div class="chart">
+          <canvas baseChart class="chart"
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColours"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    
+  </div>
+    <div class="card" *ngIf="toggleTable">
+        
+      <div class="card-header">
+        Bar Chart
+      </div>
+      <div class="card-body" >
+        <div class="chart-wrapper">
+          <canvas baseChart class="chart"
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="!toggleTable">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Resumen
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Producción por cliente</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of elementsTable,let i = index">
+                <td>{{clientResult[item+5*tabNumber] && clientResult[item+5*tabNumber].name || "" }}</td>
+                <td>{{clientResult[item+5*tabNumber] && (summaryPercClient[i+5*tabNumber] && summaryPercClient[i+5*tabNumber].toFixed(2) || "0"  ) || ""}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item" (click)="prevTab()"><a class="page-link" >Prev</a></li>
+            <li *ngFor="let num of summaryPercNumClient, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
+            <li class="page-item" (click)="nextTab()"><a class="page-link" >Next</a></li>
           </ul>
         </div>
       </div>
