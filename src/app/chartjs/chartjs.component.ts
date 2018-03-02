@@ -1,16 +1,20 @@
 import { ClientsviewService } from './../services/clientsview.service';
 import { UsersService } from './../services/users.service';
-import { Component,OnInit, ViewChild } from '@angular/core';
+import { Component,OnInit, ViewChild, NgModule } from '@angular/core';
 import { ProjectsService } from 'app/services/projects.service';
 import {BaseChartDirective} from 'ng2-charts/ng2-charts';
 import {IMyDrpOptions, IMyDateRangeModel} from 'mydaterangepicker';
+import { CommonModule } from "@angular/common";
 declare var require: any
 var moment = require('moment');
 
 @Component({
   templateUrl: 'chartjs.component.html'
 })
+
 export class ChartJSComponent {
+  public grafica= "gráfica";
+  public tabla= "tabla";
   public date = new Date();
   public date_start = new Date(moment().add(-1,'week').toISOString());
   public date_end = new Date(moment().add(1,'week').toISOString());
@@ -58,6 +62,7 @@ export class ChartJSComponent {
   frecText:string='week';
   View:Boolean=true;
   public toggleTable = false;
+  public texto = "";
   public summaryPerc=[]
   public summaryPercClient=[]
   public summaryPercNum=[];
@@ -69,7 +74,7 @@ export class ChartJSComponent {
     dateFormat: 'dd.mm.yyyy',
 };
 
-  private model: any = {beginDate: {year: this.date_start.getFullYear(), month: this.date_start.getMonth()+1, day: this.date_start.getDate()},
+  public model: any = {beginDate: {year: this.date_start.getFullYear(), month: this.date_start.getMonth()+1, day: this.date_start.getDate()},
                         endDate: {year: this.date_end.getFullYear(), month: this.date_end.getMonth()+1, day: this.date_end.getDate()}};
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public usersResult=[];
@@ -721,6 +726,13 @@ export class ChartJSComponent {
 
   ToggleGraph(){
     this.toggleTable=!this.toggleTable;
+
+    if(this.toggleTable){
+      this.texto="tabla";
+      
+    }else{
+      this.texto="gráfica";
+    }
   }
 
   changeTab(tab){ 

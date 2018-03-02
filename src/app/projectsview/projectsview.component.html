@@ -25,7 +25,7 @@
             <td>{{project.name}}</td>
             <td>{{project.description}}</td>
             <td>${{project.rate.toFixed(1)}}</td>
-            <td ><button class="btn btn-primary" type="button"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>
+            <td ><button class="btn btn-primary" type="button" (click)="gotocharts()"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>
           
             <td>
               <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateProject(project._id)></i></span>

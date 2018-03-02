@@ -1,5 +1,6 @@
 import { ProjectsService } from './../services/projects.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
 
 @Component({
   selector: 'app-projectsview',
@@ -19,7 +20,7 @@ export class ProjectsviewComponent implements OnInit {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(public projectsService: ProjectsService) { }
+  constructor(public projectsService: ProjectsService, public router: Router) { }
 
   ngOnInit() {
     this.getProject();
@@ -80,6 +81,9 @@ export class ProjectsviewComponent implements OnInit {
       
     }    
     
+  }
+  gotocharts(){
+    this.router.navigateByUrl('admin/charts');
   }
   saveChanges(){
 

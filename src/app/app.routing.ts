@@ -80,12 +80,6 @@ export const routes: Routes = [
         loadChildren: './pages/pages.module#PagesModule',
       }
     ]
-  },
-  {
-    path: '**',
-    redirectTo: 'pages/404',
-    pathMatch: 'full',
-    
   }
 
 
