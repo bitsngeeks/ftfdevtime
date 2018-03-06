@@ -37,7 +37,7 @@ export class ChartJSComponent {
   ] 
   public Types=[{
     id:1,
-    text:"Porcentaje de Utilización"
+    text:"Porcentaje de utilización"
   },
   {
     id:2,
@@ -139,7 +139,7 @@ export class ChartJSComponent {
         )
       });
 
-      console.log(result.json())
+      
       this.clientResult=result.json();
       this.summaryPercNumClient[(Math.ceil(this.clientResult.length-1)/6)]=0;
     })
@@ -392,10 +392,10 @@ export class ChartJSComponent {
           this.barChartLabels.push(element1.name)
           this.tempChartData.push({data: data, label: element1.name}) 
           this.summaryPerc=barData;
-          this.tempBarData=[{data: barData, label: 'Porcentaje de utilización'}]
+          this.tempBarData=[{data: barData, label: 'Produccion por desarrollador'}]
           
           if(index1==(array1.length-1)){
-            this.tempBarData=[{data: dataTotalBar, label: "Porcentaje de utilización"}]
+            this.tempBarData=[{data: dataTotalBar, label: "Produccion por desarrollador"}]
             /* this.tempBarData=[{data: [65.13213, 59.12, 80.12315, 81.1231245], label: 'Porcentaje de utilización'}] */
           }
   
@@ -449,14 +449,14 @@ export class ChartJSComponent {
           })   
        
         });
-        this.tempChartData=[{data: data, label: "Porcentaje de utilización"}]
+        this.tempChartData=[{data: data, label: "Produccion por desarrollador"}]
         this.barChartLabels.push(element.name)
         this.tempChartData.push({data: data, label: element.name}) 
         
-        this.tempBarData=[{data: barData, label: 'Porcentaje de utilización'}]
+        this.tempBarData=[{data: barData, label: 'Produccion por desarrollador'}]
         if(index1==(array1.length-1)){
-          this.tempBarData=[{data: dataTotalBar, label: "Porcentaje de utilización"}]
-          this.tempChartData=[{data: dataTotal, label: "Porcentaje de utilización"}]
+          this.tempBarData=[{data: dataTotalBar, label: "Produccion por desarrollador"}]
+          this.tempChartData=[{data: dataTotal, label: "Produccion por desarrollador"}]
         }
        
         
@@ -517,10 +517,10 @@ export class ChartJSComponent {
             this.barChartLabels.push(element1.name)
             this.tempChartData.push({data: data, label: element1.name}) 
             this.summaryPercClient=barData;
-            this.tempBarData=[{data: barData, label: 'Porcentaje de utilización'}]
+            this.tempBarData=[{data: barData, label: 'Produccion por cliente'}]
             
             if(index1==(array1.length-1)){
-              this.tempBarData=[{data: dataTotalBar, label: "Porcentaje de utilización"}]
+              this.tempBarData=[{data: dataTotalBar, label: "Produccion por cliente"}]
               /* this.tempBarData=[{data: [65.13213, 59.12, 80.12315, 81.1231245], label: 'Porcentaje de utilización'}] */
             }
     
@@ -584,7 +584,7 @@ export class ChartJSComponent {
             this.tempChartData=[{data: dataTotal, label: "Producción por cliente"}]
           }
          
-          console.log(this.tempChartData)
+          
           
             
           

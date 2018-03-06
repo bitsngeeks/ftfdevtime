@@ -34,11 +34,15 @@ export class DevtimeComponent implements OnInit {
             _id:string, 
             name:string,
             description:string,
+            
+            disabled:boolean
         }) => {
+          if(project.disabled){
         this.Projects.push({
           id: project._id, 
           text: project.name +" - "+ project.description
         });
+      }
       });
       console.log(result.json())
       this.resultProject=result.json();
@@ -65,17 +69,30 @@ export class DevtimeComponent implements OnInit {
 }
 
 logHours(){
-  if(!this.ProjectId){
-    alert("Seleccione un proyecto")
-  }else if((this.hours==0 || this.hours===null) && (this.minutes==0 || this.minutes===null) && (this.hours)){
-    alert("Escriba una medida de tiempo no nula (Minutos,horas o una combinacion de ambas)")
-  } else if(!this.model){
-    alert("Seleccione una fecha")
-  } else{
-    var time = this.hours*60 + this.minutes;
-    this.projectsService.logHours(this.ProjectId,this.model.jsdate,time);
-    alert("Tiempo registrado exitosamente")
-  }
+
+    this.projectsService.getOneProject(this.ProjectId)
+    .then((result)=>
+  {
+    if(result.json().disabled)
+    {
+      if(!this.ProjectId){
+        alert("Seleccione un proyecto")
+      }else if((this.hours==0 || this.hours===null) && (this.minutes==0 || this.minutes===null) && (this.hours)){
+        alert("Escriba una medida de tiempo no nula (Minutos,horas o una combinacion de ambas)")
+      } else if(!this.model){
+        alert("Seleccione una fecha")
+      } else{
+        var time = this.hours*60 + this.minutes;
+        this.projectsService.logHours(this.ProjectId,this.model.jsdate,time);
+        alert("Tiempo registrado exitosamente")
+      }
+    }
+    else{
+      alert("El proyecto está deshabilitado")
+    }
+  })
+
+  
   
 }
 

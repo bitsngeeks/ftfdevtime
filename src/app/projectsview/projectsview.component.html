@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <!-- -->
   <div class="row">
-    <div class="col-lg-6 mt-3">
+    <div class="col-xl-8 mt-3">
     <!-- Infousers card -->
       <div class="card">
             <div class="card-header">           
@@ -17,19 +17,31 @@
             <th>Rate</th>
             <th>Tiempo de desarrollo</th>
             <th>Opciones</th>
+            <th>Habilitado</th>
             
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let project of resultProjects">
+          <tr *ngFor="let project of resultProjects,let i = index">
             <td>{{project.name}}</td>
             <td>{{project.description}}</td>
             <td>${{project.rate.toFixed(1)}}</td>
-            <td ><button class="btn btn-primary" type="button" (click)="gotocharts()"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>
-          
+            <td><button class="btn btn-primary" type="button" (click)="gotocharts()"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>          
             <td>
+              <div class="row">
               <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateProject(project._id)></i></span>
               <span class="text-danger h4 col-lg-6"><i class="fa fa-trash"  style="cursor: pointer;" (click)=deleteProject(project._id)></i> </span>      
+            </div>
+          </td>
+          <td>
+            <div class="ml-3">
+          <label class="switch switch-text switch-primary">
+            
+              <input type="checkbox" class="switch-input" [ngModel]="disabled[i]" (click)="changeDisabled(project._id,i)">
+              <span class="switch-label " data-on="On" data-off="Off"></span>
+              <span class="switch-handle "></span>
+            </label>
+          </div>
           </td>
           </tr>
         </tbody>
@@ -43,7 +55,7 @@
     </div>
   </div>
   <!-- Update card -->
-  <div class="col-lg-6 mt-3" >
+  <div class="col-xl-4 mt-3" >
   <div class="card" style="display:none;" id="updatecard">
       <div class="card-header">
         <i class="fa fa-align-justify"></i> Editar Proyecto

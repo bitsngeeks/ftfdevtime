@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
     <!-- -->
     <div class="row">
-      <div class="col-lg-6 mt-3">
+      <div class="col-xl-8 mt-3">
       <!-- Infoclients card -->
         <div class="card">
               <div class="card-header">           
@@ -15,7 +15,8 @@
                       <th>Nombre</th>              
                       <th>E-mail</th>
                       <th>Proyectos</th>
-                      <th>Opciones</th>              
+                      <th>Opciones</th> 
+                    
                     </tr>
                   </thead>
                   <tbody>
@@ -42,38 +43,16 @@
       </div>
     </div>
     <!-- Update card -->
-    <div class="col-lg-6 mt-3">
+    <div class="col-xl-4 col-md-12 mt-3">
     <div class="card" style="display:none;" id="updatecard">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Editar Cliente
         </div>
         <div class="card-body">
-          
-           <table class="table nomarginbottom" >
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>E-mail</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr >
-                 <td >
-                   <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
-                 </td>
-                 <td >
-                    <input class="form-control col-lg-16" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
-                  </td>
-                 
-              </tr>
-            </tbody>
-          </table>
-          
-          
-    
+
+            Nombre: <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
+            Email: <input class="form-control" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
           <div class="modal-footer">
-          
-          
               <button type="button" class="btn btn-sm btn-primary" (click)="saveChanges()">
                   Guardar cambios
                 </button>
@@ -82,8 +61,6 @@
                     Cancelar
                   </button>
                 </div>
-              
-            
         </div>
         </div>    
         
@@ -94,7 +71,7 @@
   <!-- Row de proyectos de clientes --> 
    <div class="row">
 
-      <div class="col-lg-6 paddintablesmin" >
+      <div class="col-lg-8 paddintablesmin" >
           <!-- InfoProyects card -->
             <div class="card" style="display:none;" id="proyectscard">
                   <div class="card-header">           
@@ -138,7 +115,7 @@
           </div>
         </div>      
          <!-- AddProject card -->
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="card" style="display:none;" id="addproject">
                 <div class="card-header">
                   <i class="fa fa-align-justify"></i> Agregar Proyecto

@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 export class LoginRedirect implements CanActivate {
  constructor(private router: Router, private route: ActivatedRoute) {}
  canActivate(): boolean {
+
+
    if (localStorage.getItem('token')) {
      if(localStorage.getItem('role')=="true"){
       return true;

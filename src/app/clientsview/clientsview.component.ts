@@ -126,29 +126,12 @@ export class ClientsviewComponent implements OnInit {
       if(this.answer){
     this.clientsviewService.saveChanges(this.idupdate,this.nameupdate,this.emailupdate)
     .then(()=>this.getClients());
-    // console.log(this.idupdate,this.nameupdate,this.usernameupdate,this.emailupdate,this.roleupdate)
+    
     document.getElementById('updatecard').style.display = "none";
     alert("Cliente actualizado");
       }
     }
   }
-
-  // psaveChanges(){
-
-  //   if(this.pnameupdate==null || this.pnameupdate==""){
-  //     alert("Ingrese un Nombre válido");
-    
-  //   }else if(this.pdescriptionupdate==null || this.pdescriptionupdate==""){
-  //     alert("Ingrese una Descripcion válida");
-  //   }else{
-
-  //   this.projectsService.editProject(this.pidupdate,this.pnameupdate,this.pdescriptionupdate,this.prate)
-  //   .then(()=>this.getProjectsByClientId(this.clientID));
-  //   document.getElementById('updatecard2').style.display = "none";
-  //   alert("Proyecto actualizado");
-
-  //   }
-  // }
   getProjectsByClientId(id){
 
     this.clientID=id;
@@ -231,7 +214,7 @@ export class ClientsviewComponent implements OnInit {
               this.flag=false;
            }
           }
-          console.log(this.flag)
+          
           if(this.flag)
           {
              alert("Erro: No se puede agregar el mismo proyecto")
@@ -279,17 +262,16 @@ export class ClientsviewComponent implements OnInit {
            name:string,
            description:string,
            rate:number,
-           assigned:boolean
+           assigned:boolean,
+           disabled:boolean
        }) => {
-         if(!project.assigned){
+         if(!project.assigned && project.disabled){
        this.Projects.push({
          id: project._id,
          text: project.name +" - "+ project.description
        });
       }
      });
-     console.log(result.json())
-     
      this.resultProject=result.json();
    })
   }

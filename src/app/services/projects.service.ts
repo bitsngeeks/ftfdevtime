@@ -30,7 +30,8 @@ export class ProjectsService {
       "name": name,
       "description": description,
       "rate": rate,
-      "assigned" : false
+      "assigned" : false,
+      "disabled" : false
     }).toPromise();       
   }
    editProject(id,name,description,rate): Promise<any>{
@@ -77,6 +78,13 @@ export class ProjectsService {
     return this.http.put(this.url+'/'+idP,
       {
         "assigned": boolean
+      }).toPromise();
+  }
+
+  changeDisabled(idP:string, boolean){
+    return this.http.put(this.url+'/'+idP,
+      {
+        "disabled": boolean
       }).toPromise();
   }
 

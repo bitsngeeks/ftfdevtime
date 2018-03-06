@@ -17,6 +17,9 @@ export class ProjectsviewComponent implements OnInit {
   idUpdate:string;
   descriptionUpdate:string;
   answer;
+  disabled=[];
+  disabledvalue;
+  
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -29,7 +32,10 @@ export class ProjectsviewComponent implements OnInit {
   getProject(){
     this.projectsService.getProjects()
     .then((result) => {
-      console.log(result.json())
+      result.json().forEach((element,index,array) => {
+        this.disabled[index]=element.disabled;
+      });
+      
       this.resultProjects = result.json();
     })  
   }
@@ -106,13 +112,28 @@ export class ProjectsviewComponent implements OnInit {
 
     this.projectsService.editProject(this.idUpdate,this.nameUpdate,this.descriptionUpdate,this.rateUpdate)
     .then(()=>this.getProject());
-    // console.log(this.idupdate,this.nameupdate,this.usernameupdate,this.emailupdate,this.roleupdate)
+    
     document.getElementById('updatecard').style.display = "none";
       alert("Datos actualizados")
         }
     }
 
 
+  }
+  changeAssigned(id){
+    this.projectsService.changeAssigned(id,true)
+  }
+  changeDisabled(pid,id){
+
+    this.disabled[id]=!this.disabled[id];
+    
+    this.projectsService.changeDisabled(pid,this.disabled[id]);
+    if(this.disabled[id]){
+    alert("Proyecto habilitado")
+    }else{
+      alert("Proyecto deshabilitado")
+    }
+    
   }
   cancel(){
     document.getElementById('updatecard').style.display = "none";

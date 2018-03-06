@@ -26,6 +26,7 @@ import {HttpModule} from '@angular/http';
 import { ClientsviewComponent } from './clientsview/clientsview.component';
 import { ClientsviewService } from './services/clientsview.service';
 import { DevRedirectService } from './services/dev-redirect.service';
+import { IoRedirectService } from './services/io-redirect.service';
 
 
 
@@ -62,7 +63,8 @@ import { DevRedirectService } from './services/dev-redirect.service';
   UsersService,
   ProjectsService,
   ClientsviewService,
-  DevRedirectService
+  DevRedirectService,
+  IoRedirectService
 ],
   bootstrap: [ AppComponent ]
 })

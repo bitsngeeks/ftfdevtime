@@ -1,19 +1,19 @@
 <div class="animated fadeIn">
-  <div class="card paddingtables">
+  <div class="card mt-3">
       <div class="card-header">
-        Parametros
+          <i class="fa fa-align-justify"></i>Parametros
       </div>
       <div class="card-body">
         <div class="row">
-            <div class="form-group col-sm-3">
+            <div class="form-group col-lg-3 col-sm-6 col-md-4">
               <label for="">Rango de fechas</label>
-              <form>
+              <form>  
                     <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
                     (dateRangeChanged)="onDateRangeChanged($event)"
                     [(ngModel)]="model" required></my-date-range-picker>
             </form>
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-lg-2 col-sm-6 col-md-4">
               <label for="">Frecuencia</label>
               <ngx-select 
               [allowClear]="true"
@@ -22,7 +22,7 @@
               (select)="frecSelect()">
               </ngx-select>
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-lg-2 col-sm-6 col-md-4">
               <label for="">Vista</label>
               <ngx-select 
               [allowClear]="true"
@@ -32,7 +32,7 @@
               >
               </ngx-select>
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-lg-3 col-sm-6 col-md-4">
               <label for="">Estadistica</label>
               <ngx-select 
               [allowClear]="true"
@@ -42,16 +42,16 @@
               placeholder="Seleccione una estadistica a mostrar">
               </ngx-select>
             </div>
-            <div class="form-group col-sm-2 m-auto">
-                <button  class="btn btn-sm btn-primary" (click)="ToggleGraph()"><i class="fa fa-dot-circle-o"></i>Ver {{texto}}</button>
+            <div class="form-group col-lg-2 m-auto col-sm-2 col-md-2">
+                <button  class="btn btn-sm btn-primary" (click)="ToggleGraph()"><i class="fa fa-dot-circle-o"></i> Ver {{texto}}</button>
             </div>
             
           </div>
       </div>
     </div>
 <div [ngSwitch]="Type">
-  <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="1">
-    <div class="card" >
+  <div class="row" *ngSwitchCase="1">
+    <div class="card col-lg-5 ml-auto p-0 mr-5" >
       <div class="card-header">
         Porcentaje de utilización
       </div>
@@ -70,7 +70,7 @@
       </div>
     
   </div>
-    <div class="card" *ngIf="toggleTable">
+    <div class="card col-lg-5 mr-auto p-0" *ngIf="toggleTable">
         
       <div class="card-header">
         Bar Chart
@@ -89,7 +89,7 @@
         </div>
       </div>
     </div>
-    <div class="card" *ngIf="!toggleTable">
+    <div class="card col-lg-5 mr-auto p-0" *ngIf="!toggleTable">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Resumen
         </div>
@@ -102,23 +102,27 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of elementsTable,let i = index">
+           <!--    <tr *ngFor="let item of elementsTable,let i = index">
                 <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && usersResult[item+6*tabNumber].name || "" }}</td>
                 <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && (summaryPerc[i+6*tabNumber] && summaryPerc[i+6*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
+              </tr> -->
+              <tr *ngFor="let user of usersResult, let i = index">
+                <td >{{user.name}}</td>
+                <td >{{summaryPerc[i] && summaryPerc[i].toFixed(2) || "0"}}</td>
               </tr>
             </tbody>
           </table>
-          <ul class="pagination">
+<!--           <ul class="pagination">
             <li class="page-item" (click)="prevTab()"><a class="page-link" >Prev</a></li>
             <li *ngFor="let num of summaryPercNum, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
             <li class="page-item" (click)="nextTab()"><a class="page-link" >Next</a></li>
 
-          </ul>
+          </ul> -->
         </div>
       </div>
   </div>
-  <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="2">
-      <div class="card" >
+  <div class="row" *ngSwitchCase="2">
+      <div class="card col-lg-5 ml-auto p-0 mr-5" >
         <div class="card-header">        
           Producción por desarrollador
         </div>
@@ -137,7 +141,7 @@
         </div>
       
     </div>
-      <div class="card" *ngIf="toggleTable">
+      <div class="card col-lg-5 mr-auto p-0" *ngIf="toggleTable">
           
         <div class="card-header">
           Bar Chart
@@ -156,7 +160,7 @@
           </div>
         </div>
       </div>
-      <div class="card" *ngIf="!toggleTable">
+      <div class="card col-lg-5 mr-auto p-0" *ngIf="!toggleTable">
           <div class="card-header">
             <i class="fa fa-align-justify"></i> Resumen
           </div>
@@ -169,22 +173,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of elementsTable,let i = index">
-                  <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && usersResult[item+6*tabNumber].name || "" }}</td>
-                  <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && (summaryPerc[i+6*tabNumber] && summaryPerc[i+6*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
-                </tr>
+                  <tr *ngFor="let user of usersResult, let i = index">
+                      <td >{{user.name}}</td>
+                      <td >{{summaryPerc[i] && summaryPerc[i].toFixed(2) || "0"}}</td>
+                    </tr>
               </tbody>
             </table>
-            <ul class="pagination">
-              <li class="page-item" (click)="prevTab()"><a class="page-link" >Prev</a></li>
-              <li *ngFor="let num of summaryPercNum, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
-              <li class="page-item" (click)="nextTab()"><a class="page-link" >Next</a></li>
-            </ul>
           </div>
         </div>
     </div>
-      <div class="card-columns cols-2" style="height: 500px;" *ngSwitchCase="3">
-    <div class="card" >
+      <div class="row" *ngSwitchCase="3">
+    <div class="card col-lg-5 ml-auto p-0 mr-5" >
       <div class="card-header">        
         Producción por Cliente
       </div>
@@ -203,7 +202,7 @@
       </div>
     
   </div>
-    <div class="card" *ngIf="toggleTable">
+    <div class="card col-lg-5 mr-auto p-0" *ngIf="toggleTable">
         
       <div class="card-header">
         Bar Chart
@@ -222,7 +221,7 @@
         </div>
       </div>
     </div>
-    <div class="card" *ngIf="!toggleTable">
+    <div class="card col-lg-5 mr-auto p-0" *ngIf="!toggleTable">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Resumen
         </div>
@@ -235,17 +234,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of elementsTable,let i = index">
-                <td *ngIf="clientResult[item+6*tabNumber]">{{clientResult[item+6*tabNumber] && clientResult[item+6*tabNumber].name || "" }}</td>
-                <td *ngIf="clientResult[item+6*tabNumber]">{{clientResult[item+6*tabNumber] && (summaryPercClient[i+6*tabNumber] && summaryPercClient[i+6*tabNumber].toFixed(2) || "0"  ) || ""}}</td>
-              </tr>
+              <tr *ngFor="let user of clientResult, let i = index">
+                  <td >{{user.name}}</td>
+                  <td >{{summaryPercClient[i] && summaryPercClient[i].toFixed(2) || "0"}}</td>
+                </tr>
             </tbody>
           </table>
-          <ul class="pagination">
-            <li class="page-item" (click)="prevTab()"><a class="page-link" >Prev</a></li>
-            <li *ngFor="let num of summaryPercNumClient, let i = index" class="page-item" (click)="changeTab(i)"><a class="page-link">{{i+1}}</a></li>
-            <li class="page-item" (click)="nextTab()"><a class="page-link" >Next</a></li>
-          </ul>
         </div>
       </div>
   </div>

@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <!-- -->
   <div class="row">
-    <div class="col-lg-6 mt-3">
+    <div class="col-xl-8 mt-3">
     <!-- Infousers card -->
       <div class="card test">
             <div class="card-header">           
@@ -42,48 +42,20 @@
     </div>
   </div>
   <!-- Update card -->
-  <div class="col-lg-6 mt-3">
+  <div class="col-lg-4 mt-3">
   <div class="card" style="display:none;" id="updatecard">
       <div class="card-header">
         <i class="fa fa-align-justify"></i> Editar Usuario
       </div>
       <div class="card-body">
-        <tr >
-         <table class="table nomarginbottom" >
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Usuario</th>
-              <th>E-mail</th>
-              <th>Tipo de Usuario</th>
-              <th></th>              
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-               <td>
-                 <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
-               </td>
-               <td>
-                  <input class="form-control" id="username-update" name="username-update" placeholder="" type="text" [(ngModel)]="usernameupdate">
-                </td>
-                <td>
-                    <input class="form-control" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
-                  </td>
-                    <td>
-                    <ngx-select
-          [items]="Roles"
-          [(ngModel)]="roleupdate"
-          placeholder="Seleccionar rol">
-          
-        </ngx-select>
-      </td>
-              <td>              
-            </td>
-            </tr>
-          </tbody>
-        </table>
-        </tr>
+
+         
+              Nombre:  <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
+              Username: <input class="form-control" id="username-update" name="username-update" placeholder="" type="text" [(ngModel)]="usernameupdate">
+              Email: <input class="form-control" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
+              Rol: <ngx-select [items]="Roles" [(ngModel)]="roleupdate" placeholder="Seleccionar rol">
+                    </ngx-select>
+       
         <div class="modal-footer">
             <button type="button" class="btn btn-sm btn-primary" (click)="saveChanges()">
                 Guardar cambios
@@ -115,7 +87,7 @@
         <div class="modal-body">
           <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-          <input class="form-control" id="username-input" name="username-input" placeholder="Ingresar Username" type="text" [(ngModel)]="username">
+          <input class="form-control" id="username-input" name="username-input" placeholder="Ingresar Usuario" type="text" [(ngModel)]="username">
           
         </div>
         <br>

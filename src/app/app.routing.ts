@@ -8,12 +8,15 @@ import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { UsersviewComponent } from './usersview/usersview.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { DevRedirectService } from './services/dev-redirect.service';
+import { IoRedirectService } from './services/io-redirect.service';
 
 export const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'pages/login',
     pathMatch: 'full',
+
   },
   {
     path: 'admin',
@@ -78,12 +81,10 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: './pages/pages.module#PagesModule',
+        canActivate:[IoRedirectService]
       }
     ]
   }
-
-
-  
 ];
 
 @NgModule({
