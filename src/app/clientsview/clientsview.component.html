@@ -14,6 +14,7 @@
                     <tr>
                       <th>Nombre</th>              
                       <th>E-mail</th>
+                      <!-- <th>Vendedor</th> -->
                       <th>Proyectos</th>
                       <th>Opciones</th> 
                     
@@ -23,18 +24,19 @@
                     <tr *ngFor="let client of this.resultClients">
                       <td>{{client.name}}</td>
                       <td>{{client.email}}</td>
+                      <!-- <td>{{client.seller}}</td> -->
                       <td class="center">
                       <button class="btn btn-primary" type="button" (click)=getProjectsByClientId(client._id) #openBtn><i class="fa fa-star"></i>&nbsp; Ver Proyectos</button>
                       </td>
                       <td class="center">
-                      <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateClient(client._id)></i></span>
+                      <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateClient(client._id) (click)=showAllSellers()></i></span>
                       <span class="text-danger h4 col-lg-6"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeClient(client._id)></i> </span>        
                       </td>
                     </tr>
                   </tbody>
                 </table>    
                 <div class="modal-footer">                    
-            <button type="button" class="btn btn-sm btn-primary" (click)="infoModal.show()" (click)="cleanModal()" >
+            <button type="button" class="btn btn-sm btn-primary" (click)="infoModal.show()" (click)="cleanModal()" (click)="showAllSellers()" >
                 Agregar Cliente
               </button>
           </div>
@@ -51,7 +53,12 @@
         <div class="card-body">
 
             Nombre: <input class="form-control" id="name-update" name="name-update" placeholder="" type="text" [(ngModel)]="nameupdate">
+            <br>
             Email: <input class="form-control" id="email-update" name="email-update" placeholder="" type="text" [(ngModel)]="emailupdate">
+            <br>
+            Vendedor: <ngx-select [items]="Sellers" [(ngModel)]="sellerupdate" placeholder="{{sellername}}">
+            </ngx-select>
+            <br>
           <div class="modal-footer">
               <button type="button" class="btn btn-sm btn-primary" (click)="saveChanges()">
                   Guardar cambios
@@ -168,6 +175,11 @@
             <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
             <input class="form-control" id="email-input" name="email-input" placeholder="Ingresar Email" type="email" [(ngModel)]="email">
           </div>
+          <br>
+          <div>
+          <ngx-select [items]="Sellers" [(ngModel)]="seller" placeholder="Seleccionar Vendedor">
+          </ngx-select>
+        </div>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-sm btn-primary" (click)="addClient($event)" >Agregar cliente</button>

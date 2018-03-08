@@ -16,12 +16,12 @@ export class UsersService {
 
    }
 
-   getUser(): Promise<any>{
+  getUser(): Promise<any>{
     this.token =localStorage.getItem("token");
-
     this.headers = new Headers({'Content-Type': 'application/json', Authorization: `Bearer ${this.token}`});
     return this.http.get(this.url+'/me',{headers: this.headers}).toPromise();        
   }
+
   getUsers(): Promise<any>{
     
     return this.http.get(this.url).toPromise();        
@@ -46,7 +46,8 @@ export class UsersService {
       "password" : password,
       "role" : role,
       "name" : name,
-      "email": email
+      "email": email,
+      "seller" : false
       }
     ).toPromise();
         
@@ -63,6 +64,12 @@ export class UsersService {
       })
       
       .toPromise();
+  }
+  changeSeller(idU:string, boolean){
+    return this.http.put(this.url+'/'+idU,
+      {
+        "seller": boolean
+      }).toPromise();
   }
 
   

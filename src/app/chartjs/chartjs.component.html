@@ -106,7 +106,7 @@
                 <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && usersResult[item+6*tabNumber].name || "" }}</td>
                 <td *ngIf="usersResult[item+6*tabNumber]">{{usersResult[item+6*tabNumber] && (summaryPerc[i+6*tabNumber] && summaryPerc[i+6*tabNumber].toFixed(2) || "0"  )|| ""}}</td>
               </tr> -->
-              <tr *ngFor="let user of usersResult, let i = index">
+              <tr class="center" *ngFor="let user of usersResult, let i = index">
                 <td >{{user.name}}</td>
                 <td >{{summaryPerc[i] && summaryPerc[i].toFixed(2) || "0"}}</td>
               </tr>
@@ -173,7 +173,7 @@
                 </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let user of usersResult, let i = index">
+                  <tr class="center" *ngFor="let user of usersResult, let i = index">
                       <td >{{user.name}}</td>
                       <td >{{summaryPerc[i] && summaryPerc[i].toFixed(2) || "0"}}</td>
                     </tr>
@@ -182,7 +182,7 @@
           </div>
         </div>
     </div>
-      <div class="row" *ngSwitchCase="3">
+ <div class="row" *ngSwitchCase="3">
     <div class="card col-lg-5 ml-auto p-0 mr-5" >
       <div class="card-header">        
         Producción por Cliente
@@ -234,7 +234,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of clientResult, let i = index">
+              <tr class="center" *ngFor="let user of clientResult, let i = index">
                   <td >{{user.name}}</td>
                   <td >{{summaryPercClient[i] && summaryPercClient[i].toFixed(2) || "0"}}</td>
                 </tr>
@@ -243,6 +243,74 @@
         </div>
       </div>
   </div>
+
+
+
+
+<div class="row" *ngSwitchCase="4">
+  <div class="card col-lg-5 ml-auto p-0 mr-5" >
+    <div class="card-header">        
+      Producción por Vendedor
+    </div>
+    <div class="card-body" *ngIf="lineChartData[0].data.length>0">
+      <div class="chart">
+        <canvas baseChart class="chart"
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [colors]="lineChartColours"
+        [legend]="lineChartLegend"
+        [chartType]="lineChartType"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </div>
+  
+</div>
+  <div class="card col-lg-5 mr-auto p-0" *ngIf="toggleTable">
+      
+    <div class="card-header">
+      Bar Chart
+    </div>
+    <div class="card-body" >
+      <div class="chart-wrapper">
+        <canvas baseChart class="chart"
+        [colors]="barChartColours"
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [legend]="barChartLegend"
+        [chartType]="barChartType"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="card col-lg-5 mr-auto p-0" *ngIf="!toggleTable">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> Resumen
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Producción por vendedor</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr  class="center" *ngFor="let user of usersResult, let i = index">
+                  <td *ngIf="user.seller">{{user.name}}</td>
+                  <td *ngIf="user.seller">{{summaryPerc[i] && summaryPerc[i].toFixed(2) || "0"}}</td>
+                </tr>
+              
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+</div>
 </div>
   <!-- 
     <div class="card">

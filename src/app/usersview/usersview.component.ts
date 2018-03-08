@@ -31,6 +31,7 @@ export class UsersviewComponent implements OnInit {
   emailupdate:string;
   newrole:boolean;
   dominio;
+  seller=[];
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   
@@ -83,10 +84,16 @@ export class UsersviewComponent implements OnInit {
      
       this.usersService.getUsers()
       .then((result) => {
-        this.resultUsers = result.json();        
+        
+        
+        result.json().forEach((element,index,array) => {
+          this.seller[index]=element.seller;
+              
       })     
+      this.resultUsers = result.json();
       
-  }
+  })
+}
 
   removeUser(id){
 
@@ -180,9 +187,17 @@ export class UsersviewComponent implements OnInit {
     this.usernameupdate="";
     this.emailupdate="";
   }
+  changeSeller(uid,i){
 
-  show(){
-    console.log("show")
+    this.seller[i]=!this.seller[i];
+    
+    this.usersService.changeSeller(uid,this.seller[i]);
+    if(this.seller[i]){
+    alert("El usuario ahora es un vendedor")
+    }else{
+      alert("El usuario ahora NO es un vendedor")
+    }
+    
   }
   
   ngOnInit() {

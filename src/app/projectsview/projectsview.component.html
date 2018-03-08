@@ -16,8 +16,9 @@
             <th>Descripcion</th>
             <th>Rate</th>
             <th>Tiempo de desarrollo</th>
-            <th>Opciones</th>
             <th>Habilitado</th>
+            <th>Opciones</th>
+            
             
           </tr>
         </thead>
@@ -26,28 +27,29 @@
             <td>{{project.name}}</td>
             <td>{{project.description}}</td>
             <td>${{project.rate.toFixed(1)}}</td>
-            <td><button class="btn btn-primary" type="button" (click)="gotocharts()"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>          
+            <td><button class="btn btn-primary" type="button" (click)="gotocharts()"><i class="fa fa-clock-o"></i>&nbsp; Ver mas detalles</button></td>   
+            <td>
+              <div class="ml-3">
+            <label class="switch switch-text switch-primary">
+              
+                <input type="checkbox" class="switch-input" [ngModel]="disabled[i]" (click)="changeDisabled(project._id,i)">
+                <span class="switch-label " data-on="On" data-off="Off"></span>
+                <span class="switch-handle "></span>
+              </label>
+            </div>
+            </td>       
             <td>
               <div class="row">
               <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateProject(project._id)></i></span>
               <span class="text-danger h4 col-lg-6"><i class="fa fa-trash"  style="cursor: pointer;" (click)=deleteProject(project._id)></i> </span>      
             </div>
           </td>
-          <td>
-            <div class="ml-3">
-          <label class="switch switch-text switch-primary">
-            
-              <input type="checkbox" class="switch-input" [ngModel]="disabled[i]" (click)="changeDisabled(project._id,i)">
-              <span class="switch-label " data-on="On" data-off="Off"></span>
-              <span class="switch-handle "></span>
-            </label>
-          </div>
-          </td>
+          
           </tr>
         </tbody>
       </table>
           <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-primary" (click)="infoModal.show()" (click)="clearVals()">
+          <button type="button" class="btn btn-sm btn-primary" (click)="infoModal.show()" (click)="clearVals()" (click)="cancel()">
               Agregar Proyecto
             </button>
           </div>

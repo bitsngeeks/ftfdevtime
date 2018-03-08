@@ -15,21 +15,33 @@
             <th>Usuario</th>
             <th>E-mail</th>
             <th>Tipo</th>
+            <th>Vendedor</th>
             <th>Opciones</th>
+           
             
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of this.resultUsers">
+          <tr *ngFor="let user of this.resultUsers, let i = index">
             <td class="centertext">{{user.name}}</td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
             <td class="center">{{user.role && "Admin" || "Developer"}}</td>
-          
+            <td>
+              <div class="ml-3">
+            <label class="switch switch-text switch-primary">
+              
+                <input type="checkbox" class="switch-input" [ngModel]="seller[i]" (click)="changeSeller(user._id,i)">
+                <span class="switch-label " data-on="Si" data-off="No"></span>
+                <span class="switch-handle "></span>
+              </label>
+            </div>
+            </td>
             <td class="center">
               <span class="text-primary h4 col-lg-6"><i class="fa fa-pencil"  style="cursor: pointer;" (click)=updateUser(user._id)></i></span>
               <span class="text-danger h4 col-lg-6"><i class="fa fa-trash"  style="cursor: pointer;" (click)=removeUser(user._id)></i> </span>    
           </td>
+          
           </tr>
         </tbody>
       </table>

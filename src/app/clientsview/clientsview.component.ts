@@ -4,6 +4,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { ClientsviewService } from './../services/clientsview.service';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.component';
 import { ProjectsService } from '../services/projects.service';
+import { UsersService } from '../services/users.service';
 
 
 @Component({
@@ -34,21 +35,27 @@ export class ClientsviewComponent implements OnInit {
   pdescriptionupdate:string;
   prate:number;
   Projects=[];
+  Sellers=[];
   resultProject;
+  resultSellers;
   newproject;
+  seller="";
+  sellerupdate;
+  sellername:string;
   url='http://192.168.0.20:3000/api/clients';
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openBtn') openBtn: ElementRef;
 
   
-  constructor(public clientsviewService: ClientsviewService, public projectsService: ProjectsService, private http:Http) {
+  constructor(public clientsviewService: ClientsviewService, public projectsService: ProjectsService, public usersService: UsersService, private http:Http, ) {
     this.resultClients=[];
     this.resultProjects=[];
     this.resultProjectsNames=[];
     this.resultProjectsid=[];
     this.resultProjectsids=[];
     this.resultnewProjects=[];
+    this.resultSellers=[];
    }
 
    getClients(){
@@ -63,6 +70,8 @@ export class ClientsviewComponent implements OnInit {
     document.getElementById('updatecard').style.display = "none";
     this.name="";
     this.email="";
+    this.seller="";
+    this.sellerupdate="";
     this.emailupdate="";
     this.nameupdate="";
 
@@ -82,21 +91,40 @@ export class ClientsviewComponent implements OnInit {
    else if (!isValidEmailAddress(email2)) {
     alert("Email invalido");
    } else {     
-     this.clientsviewService.addClient(this.name,this.email).then(()=>this.getClients());
-     alert("Cliente Agregado");
+     console.log(this.seller)
+     this.clientsviewService.addClient(this.name,this.email,this.seller)
+     .then(()=>{
+       this.getClients()
+       alert("Cliente Agregado");
+      });
+     
      this.closeBtn.nativeElement.click();
    }    
  }
 
   updateClient(id){
+
+    this.sellername="";
     document.getElementById('updatecard').style.display = "block";
     this.clientsviewService.getClientById(id)
     .then((result) => {
       
       this.idupdate= result.json()._id;
       this.nameupdate=result.json().name;      
-      this.emailupdate=result.json().email;
+      this.emailupdate=result.json().email;      
+      this.sellerupdate=result.json().seller; 
+      
+      if(this.sellerupdate!="" && this.sellerupdate!=null)
+      this.usersService.getUserById(this.sellerupdate)
+      .then((result2) => {
+        
+        this.sellername=result2.json().name;
+        console.log(this.sellername);
+      })
+      
+      
     })  
+    
   }
   updateProject(id){
 
@@ -124,7 +152,7 @@ export class ClientsviewComponent implements OnInit {
     {
       this.answer= confirm("Estás seguro que quieres actualizar este usuario?")
       if(this.answer){
-    this.clientsviewService.saveChanges(this.idupdate,this.nameupdate,this.emailupdate)
+    this.clientsviewService.saveChanges(this.idupdate,this.nameupdate,this.emailupdate,this.sellerupdate)
     .then(()=>this.getClients());
     
     document.getElementById('updatecard').style.display = "none";
@@ -240,7 +268,10 @@ export class ClientsviewComponent implements OnInit {
 
     this.nameupdate="";    
     this.emailupdate="";
+    this.sellerupdate="";
   }
+
+  
 
   cancelProjects(){
     document.getElementById('proyectscard').style.display = "none";
@@ -249,6 +280,7 @@ export class ClientsviewComponent implements OnInit {
 
   cancelAddProject(){
     this.Projects=[];
+    this.Sellers=[];
     document.getElementById('addproject').style.display = "none";
   }
 
@@ -276,13 +308,34 @@ export class ClientsviewComponent implements OnInit {
    })
   }
 
+  showAllSellers(){
+    this.usersService.getUsers()
+    .then((result) => {
+      this.Sellers=[];
+      result.json().forEach((user:
+        {
+            _id:string,
+            username:string,
+            role:boolean,
+            name:string,
+            email:string,
+            seller:boolean
+        }) => {
+          if(user.seller){
+        this.Sellers.push({
+          id: user._id,
+          text: user.name
+        });
+       }
+      });
+      this.resultSellers=result.json();
+    })
+   }
+  
+
   ngOnInit() {
     
       this.getClients();
-
-      
-      
-  
   }
 
 }

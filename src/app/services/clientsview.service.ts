@@ -19,11 +19,14 @@ export class ClientsviewService {
     return this.http.get(this.url).toPromise();        
   }
 
-  addClient(name:string, email:string): Promise<any>{
+  addClient(name:string, email:string, seller: string): Promise<any>{
+        
     return this.http.post(this.url,
       {
+        
       "name" : name,
-      "email": email
+      "email": email,
+      "seller": seller
       }
     ).toPromise();
         
@@ -32,6 +35,13 @@ export class ClientsviewService {
     return this.http.put(this.url+'/'+idC,
       {
         "projects": array
+      }).toPromise();
+  }
+
+  addSellerToClient(idC:string, seller){
+    return this.http.put(this.url+'/'+idC,
+      {
+        "seller": seller
       }).toPromise();
   }
   
@@ -45,7 +55,6 @@ export class ClientsviewService {
 
   getClientById(id){
     return this.http.get(this.url+'/'+id).toPromise();      
-
   }
 
   getProjectsByClientId(id){
@@ -53,12 +62,13 @@ export class ClientsviewService {
 
   }
 
-  saveChanges(id:string, name:string, email:string){
+  saveChanges(id:string, name:string, email:string, seller:string){
     return this.http.put(this.url+'/'+id,
       {
         
         "name" : name,
-        "email": email
+        "email": email,
+        "seller": seller
 
       })
       

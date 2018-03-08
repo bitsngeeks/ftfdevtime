@@ -46,6 +46,10 @@ export class ChartJSComponent {
   {
     id:3,
     text:"Producción por cliente"
+  },
+  {
+    id:4,
+    text:"Producción por vendedor"
   }
   ]
   public Type;
@@ -63,6 +67,7 @@ export class ChartJSComponent {
   View:Boolean=true;
   public toggleTable = false;
   public texto = "";
+  flag = 2;
   public summaryPerc=[]
   public summaryPercClient=[]
   public summaryPercNum=[];
@@ -593,7 +598,124 @@ export class ChartJSComponent {
         
     /*     this.tempChartData=[{data: data, label: "Porcentaje de utilización"}] */
       
-        }
+        } break;
+        case 4:
+        if(this.View){
+ 
+          this.tempChartData=[]
+          this.barChartLabels=[]  
+          this.tempBarData=[]
+          var barData=[];
+          var dataTotalBar=[];
+          this.usersResult.forEach((element1,index1,array1) => {
+              console.log(element1.seller)  
+            if(element1.seller){
+              console.log("si")
+              var data =[]
+              
+            this.projectResult.forEach((element2,index2,array2) =>{
+              this.projectsService.adminGetHours(element2._id,element1._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+              .then((result)=>{
+                
+                result.json().log.forEach(function(element3,index3,array3) {
+                  if(!data[index3]){
+                    data[index3]=0;
+                  }            
+                  if(!barData[index1]){
+                    barData[index1]=0;
+                  }            
+                  data[index3]+=element3.time*0.0166666666666667*element2.rate;
+                 barData[index1]+=element3.time*0.0166666666666667*element2.rate;
+                 if(( index2==(array2.length-1))&&( index3==(array3.length-1))){
+                  barData[index1]/=(result.json().diff);
+                  barData[index1]
+                  dataTotalBar.push(barData[index1])
+                }
+                });
+      
+                
+                this.lineChartLabels=[]
+                     
+               for (let index = 0; index < result.json().diff; index++) {     
+      
+                this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+               }
+                    
+              })   
+            });
+              this.barChartLabels.push(element1.name)
+              this.tempChartData.push({data: data, label: element1.name}) 
+              this.summaryPerc=barData;
+              this.tempBarData=[{data: barData, label: 'Produccion por vendedor'}]
+              
+              if(index1==(array1.length-1)){
+                this.tempBarData=[{data: dataTotalBar, label: "Produccion por vendedor"}]
+                /* this.tempBarData=[{data: [65.13213, 59.12, 80.12315, 81.1231245], label: 'Porcentaje de utilización'}] */
+              }
+      
+            }else{
+              console.log("no")
+            }
+          })
+          
+         
+          
+          }else{
+
+            this.tempChartData=[]
+            var data =[]
+            var dataTotal=[];
+            this.tempBarData=[]
+            var barData=[];
+            var dataTotalBar=[];
+            this.usersResult.forEach((element,index1,array1) => {      
+                          
+             
+              this.projectResult.forEach((element1,index2,array2) =>{
+               
+                this.projectsService.adminGetHours(element1._id,element._id,moment(this.date_start).toISOString()+"",moment(this.date_end).toISOString()+"",this.frecText)
+                .then((result)=>{
+                  
+                  result.json().log.forEach(function(element,index,array) {
+                    if(!data[index]){
+                      data[index]=0;
+                    }            
+                    if(!barData[index1]){
+                      barData[index1]=0;
+                    }        
+                    
+                    data[index]+=element.time*0.0166666666666667*element1.rate;
+                    if(index1==(array1.length-1) && ( index2==(array2.length-1))){
+                
+                      dataTotal.push(data[index]/4);
+                    }
+        
+                    barData[index1]+=element.time*0.0166666666666667*element1.rate;
+                    if(( index2==(array2.length-1))&&( index==(array.length-1))){
+                     barData[index1]/=(result.json().diff);
+                     dataTotalBar.push(barData[index1])
+                   }
+                    
+                  });
+                  this.lineChartLabels=[]       
+                 for (let index = 0; index < result.json().diff; index++) {        
+                  this.lineChartLabels.push(moment(this.date_start).add(index,this.frecText).format('DD/MM/YYYY'))         
+                 }
+                      
+                })   
+             
+              });
+              this.tempChartData=[{data: data, label: "Produccion por vendedor"}]
+              this.barChartLabels.push(element.name)
+              this.tempChartData.push({data: data, label: element.name}) 
+              
+              this.tempBarData=[{data: barData, label: 'Produccion por vendedor'}]
+              if(index1==(array1.length-1)){
+                this.tempBarData=[{data: dataTotalBar, label: "Produccion por vendedor"}]
+                this.tempChartData=[{data: dataTotal, label: "Produccion por vendedor"}]
+              }
+            })
+            }
         break;
     
       default:
